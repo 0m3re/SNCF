@@ -2,12 +2,13 @@
 
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service
+from urllib3 import Retry
 from webdriver_manager.firefox import GeckoDriverManager
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 import time
 '''import gi
 
@@ -53,9 +54,16 @@ driver = webdriver.Firefox(service=Service(executable_path=GeckoDriverManager().
 driver.get(url)
 wait = WebDriverWait(driver, 2)
 
-wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll"]')))
-cookie = driver.find_element(By.XPATH, '//*[@id="CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll"]')
-cookie.click()
+while True:
+    try:
+        wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll"]')))
+        cookie = driver.find_element(By.XPATH, '//*[@id="CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll"]')
+        cookie.click()
+    except TimeoutException:
+        print("timed-out, retry in 1 sec")
+        time.sleep(1)
+        continue
+    break
 
 firstname = driver.find_element(By.XPATH, '//*[@id="edit-field-user-name-und-0-value"]')
 firstname.send_keys("John")
@@ -68,15 +76,9 @@ name.send_keys("d2ave@gmx.de")
 
 #driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-for i in range(10):
-    try:
-        driver.find_element(By.XPATH, 
-            '/html/body/form/div/div[2]/div[6]/div/label'
-        ).click()
-        break
-    except NoSuchElementException as e:
-        print('Retry in 1 second')
-        time.sleep(1)
+check = driver.find_element(By.XPATH, '/html/body/form/div/div[2]/div[6]/div/label')
+check.click()
+
 
 submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
 submit.click() 

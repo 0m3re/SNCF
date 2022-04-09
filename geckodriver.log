@@ -315,3 +315,64 @@ DevTools listening on ws://localhost:41495/devtools/browser/6d05c0f3-7966-4d6d-9
 1649504398633	Marionette	INFO	Listening on port 44731
 1649504398694	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
 console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://www.digital.sncf.com"
+1649504630621	geckodriver	INFO	Listening on 127.0.0.1:58541
+1649504630627	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "35655" "-no-remote" "-profile" "/tmp/rust_mozprofileoXDCof"
+1649504631265	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileoXDCof/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:35655/devtools/browser/4dcccc6e-4b74-41df-9c69-a2964f09756c
+1649504632413	Marionette	INFO	Listening on port 45279
+1649504632456	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: Region.jsm: "Error fetching region" (new Error("TIMEOUT", "resource://gre/modules/Region.jsm", 772))
+console.error: Region.jsm: "Failed to fetch region" (new Error("TIMEOUT", "resource://gre/modules/Region.jsm", 419))
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://www.digital.sncf.com"
+1649504659434	Marionette	INFO	Stopped listening on port 45279
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+1649504700775	geckodriver	INFO	Listening on 127.0.0.1:36183
+1649504701282	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "49495" "-no-remote" "-profile" "/tmp/rust_mozprofilekfm98q"
+1649504701780	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilekfm98q/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:49495/devtools/browser/be334c62-9e5d-4275-ba62-17f80adb5a25
+1649504702774	Marionette	INFO	Listening on port 39815
+1649504702800	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+1649504746172	Marionette	INFO	Stopped listening on port 39815
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+1649504758882	geckodriver	INFO	Listening on 127.0.0.1:35203
+1649504758888	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "48013" "-no-remote" "-profile" "/tmp/rust_mozprofilect75zu"
+1649504759382	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilect75zu/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:48013/devtools/browser/f561fe0d-1f8b-4870-9b8a-d3c1e6fc7057
+1649504760599	Marionette	INFO	Listening on port 38765
+1649504760726	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://www.digital.sncf.com"
+1649504804690	Marionette	INFO	Stopped listening on port 38765
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+
+###!!! [Parent][PImageBridgeParent] Error: RunMessage(msgname=PImageBridge::Msg_WillClose) Channel closing: too late to send/recv, messages will be lost
+
+1649505022673	geckodriver	INFO	Listening on 127.0.0.1:49669
+1649505022679	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "50369" "-no-remote" "-profile" "/tmp/rust_mozprofilerBFM3v"
+1649505023209	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofilerBFM3v/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:50369/devtools/browser/b8428c9a-cd0b-4985-a242-71c5ee0fe5fe
+1649505024187	Marionette	INFO	Listening on port 39121
+1649505024313	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.error: Region.jsm: "Error fetching region" (new Error("TIMEOUT", "resource://gre/modules/Region.jsm", 772))
+console.error: Region.jsm: "Failed to fetch region" (new Error("TIMEOUT", "resource://gre/modules/Region.jsm", 419))
+1649505098967	Marionette	INFO	Stopped listening on port 39121
+console.warn: TopSitesFeed: Failed to fetch data from Contile server: NetworkError when attempting to fetch resource.
+JavaScript error: chrome://remote/content/marionette/cert.js, line 55: NS_ERROR_NOT_AVAILABLE: Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsICertOverrideService.setDisableAllSecurityChecksAndLetAttackersInterceptMyData]
+1649505099289	geckodriver::marionette	ERROR	Failed to close browser connection: Socket not connected (os error 107)
+1649505148613	geckodriver	INFO	Listening on 127.0.0.1:52873
+1649505149120	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "--remote-debugging-port" "46089" "-no-remote" "-profile" "/tmp/rust_mozprofileyMDvOU"
+1649505149611	Marionette	INFO	Marionette enabled
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new NotFoundError("Could not open the file at /tmp/rust_mozprofileyMDvOU/search.json.mozlz4", (void 0)))
+DevTools listening on ws://localhost:46089/devtools/browser/1ec107e7-de0a-4011-b079-5eb865052b55
+1649505150633	Marionette	INFO	Listening on port 39115
+1649505150754	RemoteAgent	WARN	TLS certificate errors will be ignored for this session
+console.warn: LoginRecipes: "getRecipes: falling back to a synchronous message for:" "https://www.digital.sncf.com"
