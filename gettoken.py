@@ -5,8 +5,9 @@ from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
 
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 import time
 '''import gi
 
@@ -52,7 +53,7 @@ driver = webdriver.Firefox(service=Service(executable_path=GeckoDriverManager().
 driver.get(url)
 wait = WebDriverWait(driver, 2)
 
-wait.until(expected_conditions.element_to_be_clickable((By.XPATH, '//*[@id="CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll"]')))
+wait.until(ec.element_to_be_clickable((By.XPATH, '//*[@id="CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll"]')))
 cookie = driver.find_element(By.XPATH, '//*[@id="CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll"]')
 cookie.click()
 
@@ -63,14 +64,19 @@ name = driver.find_element(By.XPATH, '//*[@id="edit-field-user-surname-und-0-val
 name.send_keys("Doe")
 
 name = driver.find_element(By.XPATH, '//*[@id="edit-field-api-email-und-0-email"]')
-name.send_keys("John@Doe.com")
+name.send_keys("d2ave@gmx.de")
 
-check = driver.find_element(By.XPATH, '//*[@id="edit-field-api-cgu-und"]')
-if (check.is_selected()):
-    submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
-    submit.click()
-else:
-    wait.until(expected_conditions.element_to_be_clickable(By.XPATH, '//*[@id="edit-field-api-cgu-und"]'))
-    check.click()
-    submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
-    submit.click()
+#driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+for i in range(10):
+    try:
+        driver.find_element(By.XPATH, 
+            '/html/body/form/div/div[2]/div[6]/div/label'
+        ).click()
+        break
+    except NoSuchElementException as e:
+        print('Retry in 1 second')
+        time.sleep(1)
+
+submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
+submit.click() 
