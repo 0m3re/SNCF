@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 
-from importlib.resources import path
+# import files
+from emailpassword import password
+
+# Path
 import subprocess
-import sys
 
 # GUI Application
 import gi
@@ -116,9 +118,9 @@ def erroremail():
     obj.add_header('Content-Disposition',"attachment; filename= " + file)
     message.attach(obj)
     my_message = message.as_string()
-    email_session = smtplib.SMTP('smtp.gmail.com',587)
+    email_session = smtplib.SMTP('localhost', 1025)
     email_session.starttls()
-    email_session.login(sender_email,'')
+    email_session.login(sender_email, password())
     email_session.sendmail(sender_email, receiver_emails, my_message)
     email_session.quit()
 
