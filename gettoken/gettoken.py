@@ -27,18 +27,19 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email import encoders
 
-#variables
+# variables
 options = webdriver.FirefoxOptions()
 options.headless = True
 url = "https://www.digital.sncf.com/startup/api/token-developpeur"
 APP = 'token'
 _ = gettext.gettext
 
-#get relative path
+# get relative path
 rel_path_icon = subprocess.run(['find', '-name', 'token.svg'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
 rel_path_glade = subprocess.run(['find', '-name', 'sncf.ui'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
 
-#get absolute path
+# get absolute path
+# it's possible to just use the relative path but the absolute path is better
 abs_path_folder = subprocess.run(['pwd'], stdout=subprocess.PIPE).stdout.decode('utf-8')
 abs_path_icon = rel_path_icon.replace('./', abs_path_folder + '/').replace('\n', '')
 abs_path_glade = rel_path_glade.replace('./', abs_path_folder + '/').replace('\n', '')
@@ -88,7 +89,7 @@ def get_token(sncf):
                 submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
                 submit.click()
                 finderror()
-            # elif error == "Votre nom d'utilisateur existe déjà.":
+            # elif error == "Votre email existe déjà.":
             #     print("Votre email existe déjà.")
             #     finderror()
             else:
@@ -117,7 +118,7 @@ def erroremail():
     my_message = message.as_string()
     email_session = smtplib.SMTP('smtp.gmail.com',587)
     email_session.starttls()
-    email_session.login(sender_email,'9Fey6rS7iNBvShc')
+    email_session.login(sender_email,'')
     email_session.sendmail(sender_email, receiver_emails, my_message)
     email_session.quit()
 
