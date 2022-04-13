@@ -30,7 +30,7 @@ _ = gettext.gettext
 
 # Code for Webbot
 
-def gettoken(sncf):
+def get_token(sncf):
     driver = webdriver.Firefox(service=Service(executable_path=GeckoDriverManager().install()))
     driver.get(url)
     wait = WebDriverWait(driver, 2)
@@ -63,6 +63,7 @@ def gettoken(sncf):
 
     submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
     submit.click()
+    
     
 
 # Code  GUI Application
@@ -177,7 +178,17 @@ class MainWindow():
         if surname == '' or name == '' or sncf == '':
             print('You have to enter something')
         else:
-            gettoken(sncf)    
+            run_once = 0
+            while run_once == 0:
+                try:
+                    get_token(sncf)
+                    run_once = 1
+                except Exception as e:
+                    print(e)
+                    print('Error, try again')
+                    run_once = 0
+                    time.sleep(5)
+                
         
     def load_files(self):
         self.builder.get_object("headerbar").set_title(_("Get Token"))
