@@ -178,7 +178,6 @@ class MainWindow():
         if surname == '' or name == '' or sncf == '':
             print('You have to enter something')
         else:
-            run_once = 0
             while run_once == 0:
                 try:
                     get_token(sncf)
