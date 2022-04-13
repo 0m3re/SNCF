@@ -1,15 +1,16 @@
 #!/usr/bin/python3
 
-# GUI Application
+from importlib.resources import path
+import subprocess
+import sys
 
+# GUI Application
 import gi
 import gettext
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gio, GdkPixbuf
 
-
 # Firefox Webbot
-
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service 
 from webdriver_manager.firefox import GeckoDriverManager
@@ -18,18 +19,31 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 import time
+import re
+
+# send email with error
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
 #variables
-
 options = webdriver.FirefoxOptions()
 options.headless = True
 url = "https://www.digital.sncf.com/startup/api/token-developpeur"
 APP = 'token'
 _ = gettext.gettext
 
+#get relative path
+rel_path_icon = subprocess.run(['find', '-name', 'token.svg'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
+rel_path_glade = subprocess.run(['find', '-name', 'sncf.ui'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
+
+#get absolute path
+abs_path_folder = subprocess.run(['pwd'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+abs_path_icon = rel_path_icon.replace('./', abs_path_folder + '/').replace('\n', '')
+abs_path_glade = rel_path_glade.replace('./', abs_path_folder + '/').replace('\n', '')
 
 # Code for Webbot
-
 def get_token(sncf):
     driver = webdriver.Firefox(service=Service(executable_path=GeckoDriverManager().install()))
     driver.get(url)
@@ -63,12 +77,51 @@ def get_token(sncf):
 
     submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
     submit.click()
-    time.sleep(10000000000000000000000)
-    
-    
+    def finderror():
+        if driver.find_element(By.XPATH, '/html/body/section[1]/dl/dd'):
+            error = driver.find_element(By.XPATH, '/html/body/section[1]/dl/dd')
+            error = error.text
+        
+            if "There was a problem with your form submission. Please wait" in error:
+                timer = list(map(int, re.findall(r'\d+', error)))
+                time.sleep(timer[0] + 1)
+                submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
+                submit.click()
+                finderror()
+            # elif error == "Votre nom d'utilisateur existe déjà.":
+            #     print("Votre email existe déjà.")
+            #     finderror()
+            else:
+                with open('error.txt', 'w') as f:
+                    f.write(str(error))
+                erroremail()
+        else:
+            driver.quit()
+    finderror()
 
-# Code  GUI Application
+# Code for sending email with error
+def erroremail():
+    sender_email = "sncferror@gmail.com"
+    receiver_emails = ['d2ave@gmx.de', 'vi03pl@gmail.com']
+    message = MIMEMultipart()
+    message["From"] = sender_email
+    message['To'] = ", ".join(receiver_emails)
+    message['Subject'] = "Not referenced Error"
+    file = "error.txt"
+    attachment = open(file,'rb')
+    obj = MIMEBase('application','octet-stream')
+    obj.set_payload((attachment).read())
+    encoders.encode_base64(obj)
+    obj.add_header('Content-Disposition',"attachment; filename= " + file)
+    message.attach(obj)
+    my_message = message.as_string()
+    email_session = smtplib.SMTP('smtp.gmail.com',587)
+    email_session.starttls()
+    email_session.login(sender_email,'9Fey6rS7iNBvShc')
+    email_session.sendmail(sender_email, receiver_emails, my_message)
+    email_session.quit()
 
+# Code GUI Application
 class MyApplication(Gtk.Application):
     # Main initialization routine
     def __init__(self, application_id, flags):
@@ -90,11 +143,11 @@ class MyApplication(Gtk.Application):
 class MainWindow():
     def __init__(self, application):
         
-        Gtk.Window.set_default_icon_from_file('./gettoken/icons/token.svg')
+        Gtk.Window.set_default_icon_from_file(abs_path_icon)
         self.application = application
         
         # Set the Glade file
-        gladefile = "./gettoken/sncf.ui"
+        gladefile = abs_path_glade
         self.builder = Gtk.Builder()
         self.builder.add_from_file(gladefile)
         self.window = self.builder.get_object("main_window")
@@ -156,7 +209,7 @@ class MainWindow():
 
         dialog.set_version("1.0.0")
         dialog.set_icon_name("token")
-        dialog.set_logo(GdkPixbuf.Pixbuf.new_from_file('./gettoken/icons/token.svg'))
+        dialog.set_logo(GdkPixbuf.Pixbuf.new_from_file(abs_path_icon))
         dialog.set_website('https://github.com/0m3re/SNCF')
         dialog.set_authors(['David Glaser', 'Victor Plage'])
         def close(w, res):
