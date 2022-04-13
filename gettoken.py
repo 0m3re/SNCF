@@ -142,7 +142,7 @@ class MainWindow():
         dialog.set_program_name("Get Token")
         dialog.set_comments(_(""))
         try:
-            h = open('GPL', encoding="utf-8")
+            h = open('LICENSE', encoding="utf-8")
             s = h.readlines()
             gpl = ""
             for line in s:
@@ -155,7 +155,7 @@ class MainWindow():
         dialog.set_version("1.0.0")
         dialog.set_icon_name("token")
         dialog.set_logo(GdkPixbuf.Pixbuf.new_from_file('token.svg'))
-        dialog.set_website('https://')
+        dialog.set_website('https://github.com/0m3re/SNCF')
         dialog.set_authors(['David Glaser', 'Victor Plage'])
         def close(w, res):
             if res == Gtk.ResponseType.CANCEL or res == Gtk.ResponseType.DELETE_EVENT:
@@ -174,13 +174,15 @@ class MainWindow():
         name = self.name_entry.get_text()
         mail = self.mail_entry.get_text()
         sncf = [surname, name, mail]
-        gettoken(sncf)
-        
+        if surname == '' or name == '' or sncf == '':
+            print('You have to enter something')
+        else:
+            gettoken(sncf)    
         
     def load_files(self):
         self.builder.get_object("headerbar").set_title(_("Get Token"))
         self.builder.get_object("headerbar").set_subtitle(_("Get the Token for SNCF"))
          
 if __name__ == "__main__":
-    application = MyApplication("org.x.bulky", Gio.ApplicationFlags.FLAGS_NONE)
+    application = MyApplication("org.x.token", Gio.ApplicationFlags.FLAGS_NONE)
     application.run()
