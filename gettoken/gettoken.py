@@ -1,13 +1,15 @@
-#!/usr/bin/python3
+#! /usr/bin/python3
 
 # GUI Application
 
 import gi
 import gettext
+
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gio, GdkPixbuf
 
-
+# os for secret.py
+import os
 # Firefox Webbot
 
 from selenium import webdriver
@@ -104,15 +106,18 @@ class MainWindow():
         # Create variables to quickly access dynamic widgets
         self.close_button = self.builder.get_object("close_button")
         self.submit_button = self.builder.get_object("submit_button")
+        self.token_button = self.builder.get_object("token_button") 
         
         # Widget signals
         self.close_button.connect("clicked", self.on_close_button)
         self.submit_button.connect("clicked", self.on_submit_button)
+        self.token_button.connect("clicked", self.on_token_button)
 
         # Entry Widget
         self.surname_entry = self.builder.get_object("surname_entry")
         self.name_entry = self.builder.get_object("name_entry")
         self.mail_entry = self.builder.get_object("mail_entry")
+        self.token_entry = self.builder.get_object("token_entry")
         
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -180,12 +185,21 @@ class MainWindow():
             print('You have to enter something')
         else:
             get_token(sncf)
-                
+   
+    def on_token_button(self, widget):
+        token = self.token_entry.get_text()
+        os.chdir('background/')
+        with open('secret2.py', 'w') as f:
+            f.write('def token():\n')
+            f.write('    return "' + token + '"\n')
+        os.chdir('..')
+        self.application.quit()
         
     def load_files(self):
         self.builder.get_object("headerbar").set_title(_("Get Token"))
         self.builder.get_object("headerbar").set_subtitle(_("Get the Token for SNCF"))
-         
+    
+
 if __name__ == "__main__":
     application = MyApplication("org.x.token", Gio.ApplicationFlags.FLAGS_NONE)
     application.run()
