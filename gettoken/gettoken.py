@@ -63,6 +63,7 @@ def get_token(sncf):
 
     submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
     submit.click()
+    time.sleep(10000000000000000000000)
     
     
 
@@ -89,11 +90,11 @@ class MyApplication(Gtk.Application):
 class MainWindow():
     def __init__(self, application):
         
-        Gtk.Window.set_default_icon_from_file('token.svg')
+        Gtk.Window.set_default_icon_from_file('./gettoken/icons/token.svg')
         self.application = application
         
         # Set the Glade file
-        gladefile = "sncf.ui"
+        gladefile = "./gettoken/sncf.ui"
         self.builder = Gtk.Builder()
         self.builder.add_from_file(gladefile)
         self.window = self.builder.get_object("main_window")
@@ -155,7 +156,7 @@ class MainWindow():
 
         dialog.set_version("1.0.0")
         dialog.set_icon_name("token")
-        dialog.set_logo(GdkPixbuf.Pixbuf.new_from_file('token.svg'))
+        dialog.set_logo(GdkPixbuf.Pixbuf.new_from_file('./gettoken/icons/token.svg'))
         dialog.set_website('https://github.com/0m3re/SNCF')
         dialog.set_authors(['David Glaser', 'Victor Plage'])
         def close(w, res):
@@ -178,15 +179,7 @@ class MainWindow():
         if surname == '' or name == '' or sncf == '':
             print('You have to enter something')
         else:
-            while run_once == 0:
-                try:
-                    get_token(sncf)
-                    run_once = 1
-                except Exception as e:
-                    print(e)
-                    print('Error, try again')
-                    run_once = 0
-                    time.sleep(5)
+            get_token(sncf)
                 
         
     def load_files(self):
