@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 # import files
-from emailpassword import password
+from email.mime.text import MIMEText
+from credentials import mypassword, myphone, sncfemail
 
 # Path
 import subprocess
@@ -91,12 +92,18 @@ def get_token(sncf):
                 submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
                 submit.click()
                 finderror()
-            # elif error == "Votre email existe déjà.":
-            #     print("Votre email existe déjà.")
-            #     finderror()
+            elif "Veuillez renseigner un email valide." in error:
+                print("Votre email n'est pas valide.")
+                # erroremail()
+                driver.quit()
+            elif "Votre email existe déjà." in error:
+                print("Votre email existe déjà.")
+                # erroremail()
+                driver.quit()    
             else:
-                with open('error.txt', 'w') as f:
-                    f.write(str(error))
+                with open('error.txt', 'a') as file:
+                    file.write("\n")
+                    file.write(str(error))
                 erroremail()
         else:
             driver.quit()
@@ -104,25 +111,38 @@ def get_token(sncf):
 
 # Code for sending email with error
 def erroremail():
-    sender_email = "sncferror@gmail.com"
-    receiver_emails = ['d2ave@gmx.de', 'vi03pl@gmail.com']
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message['To'] = ", ".join(receiver_emails)
-    message['Subject'] = "Not referenced Error"
-    file = "error.txt"
-    attachment = open(file,'rb')
-    obj = MIMEBase('application','octet-stream')
-    obj.set_payload((attachment).read())
-    encoders.encode_base64(obj)
-    obj.add_header('Content-Disposition',"attachment; filename= " + file)
-    message.attach(obj)
-    my_message = message.as_string()
-    email_session = smtplib.SMTP('localhost', 1025)
-    email_session.starttls()
-    email_session.login(sender_email, password())
-    email_session.sendmail(sender_email, receiver_emails, my_message)
-    email_session.quit()
+    email = sncfemail()
+    pas = mypassword()
+
+    sms_gateway = myphone() + '@tmomail.net'
+    # The server we use to send emails in our case it will be gmail but every email provider has a different smtp 
+    # and port is also provided by the email provider.
+    smtp = "smtp.gmail.com" 
+    port = 587
+    # This will start our email server
+    server = smtplib.SMTP(smtp,port)
+    # Starting the server
+    server.starttls()
+    # Now we need to login
+    server.login(email,pas)
+
+    # Now we use the MIME module to structure our message.
+    msg = MIMEMultipart()
+    msg['From'] = email
+    msg['To'] = sms_gateway
+    # Make sure you add a new line in the subject
+    msg['Subject'] = "You can insert anything\n"
+    # Make sure you also add new lines to your body
+    body = "You can insert message here\n"
+    # and then attach that body furthermore you can also send html content.
+    msg.attach(MIMEText(body, 'plain'))
+
+    sms = msg.as_string()
+
+    server.sendmail(email,sms_gateway,sms)
+
+    # lastly quit the server
+    server.quit()
 
 # Code GUI Application
 class MyApplication(Gtk.Application):
