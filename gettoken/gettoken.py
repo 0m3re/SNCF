@@ -13,6 +13,9 @@ import gettext
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gio, GdkPixbuf
 
+# os for secret.py
+import os
+
 # Firefox Webbot
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service 
@@ -256,6 +259,15 @@ class MainWindow():
             print('You have to enter something')
         else:
             get_token(sncf)
+            
+    def on_token_button(self, widget):
+        token = self.token_entry.get_text()
+        os.chdir('background/')
+        with open('secret2.py', 'w') as f:
+            f.write('def token():\n')
+            f.write('    return "' + token + '"\n')
+        os.chdir('..')
+        self.application.quit()
                 
         
     def load_files(self):
