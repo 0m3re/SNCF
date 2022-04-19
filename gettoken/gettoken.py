@@ -96,18 +96,23 @@ def get_token(sncf):
                 submit.click()
                 finderror()
             elif "Veuillez renseigner un email valide." in error:
-                print("Votre email n'est pas valide.")
+                builder = Gtk.Builder()
+                gladefile = abs_path_glade
+                builder.add_from_file(gladefile)
+                builder.get_object("errorlabel").set_label(_("Votre email n'est pas valide!"))
+                # MainWindow.errorlabel(self, "Veuillez renseigner un email valide.")
                 # erroremail()
                 driver.quit()
             elif "Votre email existe déjà." in error:
-                print("Votre email existe déjà.")
+                print("i")
+                # MainWindow.errorlabel(self, "Votre email existe déjà.")
                 # erroremail()
                 driver.quit()    
             else:
                 with open('error.txt', 'a') as file:
                     file.write("\n")
                     file.write(str(error))
-                erroremail()
+                # erroremail()
         else:
             driver.quit()
     finderror()
@@ -312,7 +317,7 @@ class MainWindow():
         mail = self.mail_entry.get_text()
         sncf = [surname, name, mail]
         if surname == '' or name == '' or sncf == '':
-            print('You have to enter something')
+            self.errorlabel('Vous devez remplir tout les champs!')
         else:
             get_token(sncf)
             
@@ -324,8 +329,10 @@ class MainWindow():
             f.write('    return "' + token + '"\n')
         os.chdir('..')
         self.application.quit()
-                
-        
+    
+    def errorlabel(self, msg):
+        self.builder.get_object("errorlabel").set_label(_(msg))
+    
     def load_files(self):
         self.builder.get_object("headerbar").set_title(_("SNCF Setup"))
         self.builder.get_object("headerbar").set_subtitle(_("Get the Token for SNCF"))
