@@ -164,6 +164,20 @@ class MyApplication(Gtk.Application):
             window = MainWindow(self)
             self.add_window(window.window)
             window.window.show()
+            
+class SidebarRow(Gtk.ListBoxRow):
+    
+    def __init__(self, page_widget, page_name, icon_name):
+        Gtk.ListBoxRow.__init__(self)
+        self.page_widget = page_widget
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        box.set_border_width(6)
+        image = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
+        box.pack_start(image, False, False, 0)
+        label = Gtk.Label()
+        label.set_text(page_name)
+        box.pack_start(label, False, False, 0)
+        self.add(box)
 
 
 class MainWindow():
@@ -173,12 +187,13 @@ class MainWindow():
         self.application = application
         
         # Set the Glade file
-        gladefile = abs_path_glade
         self.builder = Gtk.Builder()
+        gladefile = abs_path_glade
         self.builder.add_from_file(gladefile)
         self.window = self.builder.get_object("main_window")
-        self.window.set_title(_("Token..."))
         self.window.set_icon_name("token")
+        self.window.set_position(Gtk.WindowPosition.CENTER)
+        self.window.connect("destroy", Gtk.main_quit)
         
         # Create variables to quickly access dynamic widgets
         self.close_button = self.builder.get_object("close_button")
@@ -192,6 +207,41 @@ class MainWindow():
         self.surname_entry = self.builder.get_object("surname_entry")
         self.name_entry = self.builder.get_object("name_entry")
         self.mail_entry = self.builder.get_object("mail_entry")
+        
+        # Setup the main stack
+        self.stack = Gtk.Stack()
+        self.builder.get_object("center_box").pack_start(self.stack, True, True, 0)
+        self.stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+        self.stack.set_transition_duration(150)
+        
+        # Construct the stack switcher
+        list_box = self.builder.get_object("list_navigation")
+        
+        # Construct the stack switcher
+        list_box = self.builder.get_object("list_navigation")
+
+        page = self.builder.get_object("page_home")
+        self.stack.add_named(page, "page_home")
+        list_box.add(SidebarRow(page, _("Welcome"), "go-home-symbolic"))
+        self.stack.set_visible_child(page)
+
+        page = self.builder.get_object("page_token")
+        self.stack.add_named(page, "page_token")
+        list_box.add(SidebarRow(page, _("Token"), "dialog-information-symbolic"))
+
+        # page = self.builder.get_object("page_documentation")
+        # self.stack.add_named(page, "page_documentation")
+        # list_box.add(SidebarRow(page, _("Documentation"), "accessories-dictionary-symbolic"))
+
+        # page = self.builder.get_object("page_help")
+        # self.stack.add_named(page, "page_help")
+        # list_box.add(SidebarRow(page, _("Help"), "help-browser-symbolic"))
+
+        # page = self.builder.get_object("page_contribute")
+        # self.stack.add_named(page, "page_contribute")
+        # list_box.add(SidebarRow(page, _("Contribute"), "starred-symbolic"))
+
+        list_box.connect("row-activated", self.sidebar_row_selected_cb)
         
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -214,13 +264,16 @@ class MainWindow():
         menu.append(item)
         menu.show_all()
         
+        self.window.set_default_size(800, 500)
+        self.window.show_all()
+        
         self.load_files()
     
     def open_about(self, widget):
         dialog = Gtk.AboutDialog()
         dialog.set_transient_for(self.window)
         dialog.set_title(_("About"))
-        dialog.set_program_name("Get Token")
+        dialog.set_program_name("SNCF Setup")
         dialog.set_comments(_(""))
         try:
             h = open('LICENSE', encoding="utf-8")
@@ -247,6 +300,9 @@ class MainWindow():
     def on_menu_quit(self, widget):
         self.application.quit()
         
+    def sidebar_row_selected_cb(self, list_box, row):
+        self.stack.set_visible_child(row.page_widget)
+    
     def on_close_button(self, widget):
         self.application.quit()
     
@@ -271,7 +327,7 @@ class MainWindow():
                 
         
     def load_files(self):
-        self.builder.get_object("headerbar").set_title(_("Get Token"))
+        self.builder.get_object("headerbar").set_title(_("SNCF Setup"))
         self.builder.get_object("headerbar").set_subtitle(_("Get the Token for SNCF"))
          
 if __name__ == "__main__":
