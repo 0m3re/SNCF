@@ -96,13 +96,13 @@ def get_token(sncf):
                 submit.click()
                 finderror()
             elif "Veuillez renseigner un email valide." in error:
-                builder = Gtk.Builder()
-                gladefile = abs_path_glade
-                builder.add_from_file(gladefile)
-                builder.get_object("errorlabel").set_label(_("Votre email n'est pas valide!"))
-                # MainWindow.errorlabel(self, "Veuillez renseigner un email valide.")
+                # builder = Gtk.Builder()
+                # gladefile = abs_path_glade
+                # builder.add_from_file(gladefile)
+                # builder.get_object("errorlabel").set_label(_("Votre email n'est pas valide!"))
+                MainWindow.errorlabel("Veuillez renseigner un email valide.")
                 # erroremail()
-                driver.quit()
+                # driver.quit()
             elif "Votre email existe déjà." in error:
                 print("i")
                 # MainWindow.errorlabel(self, "Votre email existe déjà.")
