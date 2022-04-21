@@ -2,7 +2,7 @@
 
 # import files
 from email.mime.text import MIMEText
-from credentials import mypassword, myphone, sncfemail
+# from credentials import mypassword, myphone, sncfemail
 
 # Path
 import subprocess
@@ -28,10 +28,10 @@ import time
 import re
 
 # send email with error
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
+# import smtplib
+# from email.mime.multipart import MIMEMultipart
+# from email.mime.base import MIMEBase
+# from email import encoders
 
 # variables
 options = webdriver.FirefoxOptions()
@@ -118,39 +118,39 @@ def get_token(sncf):
     finderror()
 
 # Code for sending email with error
-def erroremail():
-    email = sncfemail()
-    pas = mypassword()
+# def erroremail():
+#     email = sncfemail()
+#     pas = mypassword()
 
-    sms_gateway = myphone() + '@tmomail.net'
-    # The server we use to send emails in our case it will be gmail but every email provider has a different smtp 
-    # and port is also provided by the email provider.
-    smtp = "smtp.gmail.com" 
-    port = 587
-    # This will start our email server
-    server = smtplib.SMTP(smtp,port)
-    # Starting the server
-    server.starttls()
-    # Now we need to login
-    server.login(email,pas)
+#     sms_gateway = myphone() + '@tmomail.net'
+#     # The server we use to send emails in our case it will be gmail but every email provider has a different smtp 
+#     # and port is also provided by the email provider.
+#     smtp = "smtp.gmail.com" 
+#     port = 587
+#     # This will start our email server
+#     server = smtplib.SMTP(smtp,port)
+#     # Starting the server
+#     server.starttls()
+#     # Now we need to login
+#     server.login(email,pas)
 
-    # Now we use the MIME module to structure our message.
-    msg = MIMEMultipart()
-    msg['From'] = email
-    msg['To'] = sms_gateway
-    # Make sure you add a new line in the subject
-    msg['Subject'] = "You can insert anything\n"
-    # Make sure you also add new lines to your body
-    body = "You can insert message here\n"
-    # and then attach that body furthermore you can also send html content.
-    msg.attach(MIMEText(body, 'plain'))
+#     # Now we use the MIME module to structure our message.
+#     msg = MIMEMultipart()
+#     msg['From'] = email
+#     msg['To'] = sms_gateway
+#     # Make sure you add a new line in the subject
+#     msg['Subject'] = "You can insert anything\n"
+#     # Make sure you also add new lines to your body
+#     body = "You can insert message here\n"
+#     # and then attach that body furthermore you can also send html content.
+#     msg.attach(MIMEText(body, 'plain'))
 
-    sms = msg.as_string()
+#     sms = msg.as_string()
 
-    server.sendmail(email,sms_gateway,sms)
+#     server.sendmail(email,sms_gateway,sms)
 
-    # lastly quit the server
-    server.quit()
+#     # lastly quit the server
+#     server.quit()
 
 # Code GUI Application
 class MyApplication(Gtk.Application):
@@ -202,16 +202,21 @@ class MainWindow():
         
         # Create variables to quickly access dynamic widgets
         self.close_button = self.builder.get_object("close_button")
+        self.close_button2 = self.builder.get_object("close_button2")
         self.submit_button = self.builder.get_object("submit_button")
+        self.token_button = self.builder.get_object("token_button")
         
         # Widget signals
         self.close_button.connect("clicked", self.on_close_button)
+        self.close_button2.connect("clicked", self.on_close_button)
         self.submit_button.connect("clicked", self.on_submit_button)
+        self.token_button.connect("clicked", self.on_token_button)
 
         # Entry Widget
         self.surname_entry = self.builder.get_object("surname_entry")
         self.name_entry = self.builder.get_object("name_entry")
         self.mail_entry = self.builder.get_object("mail_entry")
+        self.token_entry = self.builder.get_object("token_entry")
         
         # Setup the main stack
         self.stack = Gtk.Stack()
@@ -233,6 +238,10 @@ class MainWindow():
         page = self.builder.get_object("page_token")
         self.stack.add_named(page, "page_token")
         list_box.add(SidebarRow(page, _("Token"), "dialog-information-symbolic"))
+
+        page = self.builder.get_object("page_secret")
+        self.stack.add_named(page, "page_secret")
+        list_box.add(SidebarRow(page, _("Secret"), "dialog-information-symbolic"))
 
         # page = self.builder.get_object("page_documentation")
         # self.stack.add_named(page, "page_documentation")
