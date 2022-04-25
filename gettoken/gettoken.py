@@ -27,11 +27,8 @@ from selenium.common.exceptions import TimeoutException
 import time
 import re
 
-# send email with error
-# import smtplib
-# from email.mime.multipart import MIMEMultipart
-# from email.mime.base import MIMEBase
-# from email import encoders
+# check string
+import string
 
 # variables
 options = webdriver.FirefoxOptions()
@@ -39,16 +36,19 @@ options.headless = True
 url = "https://www.digital.sncf.com/startup/api/token-developpeur"
 APP = 'token'
 _ = gettext.gettext
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 # get relative path
 rel_path_icon = subprocess.run(['find', '-name', 'token.svg'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
 rel_path_glade = subprocess.run(['find', '-name', 'sncf.ui'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
+rel_path_licence = subprocess.run(['find', '-name', 'LICENSE'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
 
 # get absolute path
 # it's possible to just use the relative path but the absolute path is better
 abs_path_folder = subprocess.run(['pwd'], stdout=subprocess.PIPE).stdout.decode('utf-8')
 abs_path_icon = rel_path_icon.replace('./', abs_path_folder + '/').replace('\n', '')
 abs_path_glade = rel_path_glade.replace('./', abs_path_folder + '/').replace('\n', '')
+abs_path_licence = rel_path_glade.replace('./', abs_path_folder + '/').replace('\n', '')
 
 # Code for Webbot
 def get_token(self, sncf):
@@ -110,40 +110,22 @@ def get_token(self, sncf):
             driver.quit()
     finderror(self)
 
-# Code for sending email with error
-# def erroremail():
-#     email = sncfemail()
-#     pas = mypassword()
+# Code to verify if string contains numbers or symbols
+def is_number_symbol(word):
+    invalidChars = set(string.punctuation.replace("-", "") + string.digits)
+    if any(char in invalidChars for char in word):
+        return True
+    else:
+        return False
 
-#     sms_gateway = myphone() + '@tmomail.net'
-#     # The server we use to send emails in our case it will be gmail but every email provider has a different smtp 
-#     # and port is also provided by the email provider.
-#     smtp = "smtp.gmail.com" 
-#     port = 587
-#     # This will start our email server
-#     server = smtplib.SMTP(smtp,port)
-#     # Starting the server
-#     server.starttls()
-#     # Now we need to login
-#     server.login(email,pas)
-
-#     # Now we use the MIME module to structure our message.
-#     msg = MIMEMultipart()
-#     msg['From'] = email
-#     msg['To'] = sms_gateway
-#     # Make sure you add a new line in the subject
-#     msg['Subject'] = "You can insert anything\n"
-#     # Make sure you also add new lines to your body
-#     body = "You can insert message here\n"
-#     # and then attach that body furthermore you can also send html content.
-#     msg.attach(MIMEText(body, 'plain'))
-
-#     sms = msg.as_string()
-
-#     server.sendmail(email,sms_gateway,sms)
-
-#     # lastly quit the server
-#     server.quit()
+def check(email):
+     
+    # pass the regular expression
+    # and the string into the fullmatch() method
+    if(re.fullmatch(regex, email)):
+        return False
+    else:
+        return True
 
 # Code GUI Application
 class MyApplication(Gtk.Application):
@@ -271,7 +253,7 @@ class MainWindow():
         dialog.set_program_name("SNCF Setup")
         dialog.set_comments(_(""))
         try:
-            h = open('LICENSE', encoding="utf-8")
+            h = open(abs_path_licence, encoding="utf-8")
             s = h.readlines()
             gpl = ""
             for line in s:
@@ -306,8 +288,12 @@ class MainWindow():
         name = self.name_entry.get_text()
         mail = self.mail_entry.get_text()
         sncf = [surname, name, mail]
-        if surname == '' or name == '' or sncf == '':
+        if surname == '' or name == '' or mail == '':
             self.errorlabel("You must fill in all the fields.")
+        elif is_number_symbol(surname) or is_number_symbol(name):
+            self.errorlabel("You can't use this characters in your name or surname.")
+        elif check(mail):
+            self.errorlabel("This mail is not valid.")
         else:
             get_token(self, sncf)
             
