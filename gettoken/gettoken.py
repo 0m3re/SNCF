@@ -51,7 +51,7 @@ abs_path_icon = rel_path_icon.replace('./', abs_path_folder + '/').replace('\n',
 abs_path_glade = rel_path_glade.replace('./', abs_path_folder + '/').replace('\n', '')
 
 # Code for Webbot
-def get_token(sncf):
+def get_token(self, sncf):
     driver = webdriver.Firefox(service=Service(executable_path=GeckoDriverManager().install()))
     driver.get(url)
     wait = WebDriverWait(driver, 2)
@@ -84,7 +84,7 @@ def get_token(sncf):
 
     submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
     submit.click()
-    def finderror():
+    def finderror(self):
         if driver.find_element(By.XPATH, '/html/body/section[1]/dl/dd'):
             error = driver.find_element(By.XPATH, '/html/body/section[1]/dl/dd')
             error = error.text
@@ -94,19 +94,12 @@ def get_token(sncf):
                 time.sleep(timer[0] + 1)
                 submit = driver.find_element(By.XPATH, '//*[@id="edit-submit"]')
                 submit.click()
-                finderror()
+                finderror(self)
             elif "Veuillez renseigner un email valide." in error:
-                # builder = Gtk.Builder()
-                # gladefile = abs_path_glade
-                # builder.add_from_file(gladefile)
-                # builder.get_object("errorlabel").set_label(_("Votre email n'est pas valide!"))
-                MainWindow.errorlabel("Veuillez renseigner un email valide.")
-                # erroremail()
-                # driver.quit()
+                MainWindow.errorlabel(self, "Please provide a valid email.")
+                driver.quit()
             elif "Votre email existe déjà." in error:
-                print("i")
-                # MainWindow.errorlabel(self, "Votre email existe déjà.")
-                # erroremail()
+                MainWindow.errorlabel(self, "Your email already exists.")
                 driver.quit()    
             else:
                 with open('error.txt', 'a') as file:
@@ -115,7 +108,7 @@ def get_token(sncf):
                 # erroremail()
         else:
             driver.quit()
-    finderror()
+    finderror(self)
 
 # Code for sending email with error
 # def erroremail():
@@ -237,23 +230,11 @@ class MainWindow():
 
         page = self.builder.get_object("page_token")
         self.stack.add_named(page, "page_token")
-        list_box.add(SidebarRow(page, _("Token"), "dialog-information-symbolic"))
+        list_box.add(SidebarRow(page, _("Token"), "org.x.Warpinator-symbolic"))
 
         page = self.builder.get_object("page_secret")
         self.stack.add_named(page, "page_secret")
-        list_box.add(SidebarRow(page, _("Secret"), "dialog-information-symbolic"))
-
-        # page = self.builder.get_object("page_documentation")
-        # self.stack.add_named(page, "page_documentation")
-        # list_box.add(SidebarRow(page, _("Documentation"), "accessories-dictionary-symbolic"))
-
-        # page = self.builder.get_object("page_help")
-        # self.stack.add_named(page, "page_help")
-        # list_box.add(SidebarRow(page, _("Help"), "help-browser-symbolic"))
-
-        # page = self.builder.get_object("page_contribute")
-        # self.stack.add_named(page, "page_contribute")
-        # list_box.add(SidebarRow(page, _("Contribute"), "starred-symbolic"))
+        list_box.add(SidebarRow(page, _("Secret"), "status-nm-device-wired-secureoffline-symbolic"))
 
         list_box.connect("row-activated", self.sidebar_row_selected_cb)
         
@@ -326,9 +307,9 @@ class MainWindow():
         mail = self.mail_entry.get_text()
         sncf = [surname, name, mail]
         if surname == '' or name == '' or sncf == '':
-            self.errorlabel('Vous devez remplir tout les champs!')
+            self.errorlabel("You must fill in all the fields.")
         else:
-            get_token(sncf)
+            get_token(self, sncf)
             
     def on_token_button(self, widget):
         token = self.token_entry.get_text()
@@ -345,7 +326,7 @@ class MainWindow():
     def load_files(self):
         self.builder.get_object("headerbar").set_title(_("SNCF Setup"))
         self.builder.get_object("headerbar").set_subtitle(_("Get the Token for SNCF"))
-         
+  
 if __name__ == "__main__":
     application = MyApplication("org.x.token", Gio.ApplicationFlags.FLAGS_NONE)
     application.run()
