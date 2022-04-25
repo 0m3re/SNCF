@@ -277,7 +277,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Prénom:</property>
+                        <property name="label" translatable="yes">Surname:</property>
                         <property name="xalign">1</property>
                       </object>
                       <packing>
@@ -289,7 +289,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Nom:</property>
+                        <property name="label" translatable="yes">Lase Name:</property>
                         <property name="xalign">1</property>
                       </object>
                       <packing>
@@ -301,7 +301,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Mail:</property>
+                        <property name="label" translatable="yes">E-Mail:</property>
                         <property name="xalign">1</property>
                       </object>
                       <packing>
@@ -561,7 +561,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="pixel_size">32</property>
-                        <property name="file">token.svg</property>
+                        <property name="resource">/usr/share/sncf/token.svg</property>
                         <property name="icon_size">0</property>
                       </object>
                       <packing>
