@@ -557,12 +557,7 @@
                     <property name="border_width">20</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkImage">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="pixel_size">32</property>
-                        <property name="resource">/usr/share/sncf/token.svg</property>
-                        <property name="icon_size">0</property>
+                      <object class="GtkImage" id="token_image">
                       </object>
                       <packing>
                         <property name="expand">False</property>
