@@ -41,14 +41,12 @@ regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 # get relative path
 rel_path_icon = subprocess.run(['find', '-name', 'token.svg'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
 rel_path_glade = subprocess.run(['find', '-name', 'sncf.ui'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
-rel_path_licence = subprocess.run(['find', '-name', 'LICENSE'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
 
 # get absolute path
 # it's possible to just use the relative path but the absolute path is better
 abs_path_folder = subprocess.run(['pwd'], stdout=subprocess.PIPE).stdout.decode('utf-8')
 abs_path_icon = rel_path_icon.replace('./', abs_path_folder + '/').replace('\n', '')
 abs_path_glade = rel_path_glade.replace('./', abs_path_folder + '/').replace('\n', '')
-abs_path_licence = rel_path_glade.replace('./', abs_path_folder + '/').replace('\n', '')
 
 # Code for Webbot
 def get_token(self, sncf):
@@ -253,7 +251,7 @@ class MainWindow():
         dialog.set_program_name("SNCF Setup")
         dialog.set_comments(_(""))
         try:
-            h = open(abs_path_licence, encoding="utf-8")
+            h = open('LICENSE', encoding="utf-8")
             s = h.readlines()
             gpl = ""
             for line in s:
