@@ -241,9 +241,7 @@ class MainWindow():
         
         self.window.set_default_size(800, 500)
         self.window.show_all()
-        
-        self.load_files()
-    
+
     def open_about(self, widget):
         dialog = Gtk.AboutDialog()
         dialog.set_transient_for(self.window)
@@ -307,10 +305,6 @@ class MainWindow():
     def errorlabel(self, msg):
         self.builder.get_object("errorlabel").set_label(_(msg))
     
-    def load_files(self):
-        self.builder.get_object("headerbar").set_title(_("SNCF Setup"))
-        self.builder.get_object("headerbar").set_subtitle(_("Get the Token for SNCF"))
-  
 if __name__ == "__main__":
     application = MyApplication("org.x.token", Gio.ApplicationFlags.FLAGS_NONE)
     application.run()
