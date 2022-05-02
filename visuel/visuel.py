@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
+#
+from loadgui import load 
+
 # Path
 import subprocess
 import os
+import datetime
 
 # GUI Application
 import gi
@@ -12,7 +16,8 @@ from gi.repository import Gtk, Gio, GdkPixbuf
 
 # variables
 _ = gettext.gettext
-dir = 'gettoken'
+dir = 'calculus'
+date = datetime.date.today() - datetime.timedelta(1)
 
 # create date list
 date_list = []
@@ -105,7 +110,7 @@ class MainWindow():
         self.window.set_default_size(800, 500)
         self.window.show_all()
         
-        self.load_files()
+        self.load_files(date)
     
     def open_about(self, widget):
         dialog = Gtk.AboutDialog()
@@ -136,7 +141,9 @@ class MainWindow():
         dialog.show()
         
     def on_app_changed(self, widget):
-        print("on_app_changed")
+        jour = date_list[self.app_combo.get_active()]
+        print(jour)
+        self.load_files(str(jour))
     
     def on_menu_quit(self, widget):
         self.application.quit()
@@ -144,9 +151,10 @@ class MainWindow():
     # def on_close_button(self, widget):
     #     self.application.quit()
     
-    def load_files(self):
-        self.builder.get_object("headerbar").set_title(_("Visuel"))
-        self.builder.get_object("headerbar").set_subtitle(_("Analytics for SNCF"))
+    def load_files(self, jour):
+        a, b, c, d, e, f, g, n, u = load(jour)
+        phrase = f"À la date du {date} il y a eu {a} trains en retard"
+        self.builder.get_object("info_label").set_label(_(phrase))
   
 if __name__ == "__main__":
     application = MyApplication("org.x.visuel", Gio.ApplicationFlags.FLAGS_NONE)
