@@ -58,13 +58,15 @@ class MyApplication(Gtk.Application):
 class MainWindow():
     def __init__(self, application):
         
-        Gtk.Window.set_default_icon_from_file(abs_path_icon)
+        #Gtk.Window.set_default_icon_from_file(abs_path_icon)
+        Gtk.Window.set_default_icon_from_file('visuel/icons/visuel.svg')
         self.application = application
         
         # Set the Glade file
         self.builder = Gtk.Builder()
         gladefile = abs_path_glade
-        self.builder.add_from_file(gladefile)
+        #self.builder.add_from_file(gladefile)
+        self.builder.add_from_file('visuel/visuel.ui')
         self.window = self.builder.get_object("main_window")
         self.window.set_icon_name("visuel")
         self.window.set_position(Gtk.WindowPosition.CENTER)
@@ -107,7 +109,7 @@ class MainWindow():
         menu.append(item)
         menu.show_all()
         
-        self.window.set_default_size(800, 500)
+        #self.window.set_default_size(800, 500)
         self.window.show_all()
         
         self.load_files(date)
@@ -153,7 +155,11 @@ class MainWindow():
     
     def load_files(self, jour):
         a, b, c, d, e, f, g, n, u = load(jour)
-        phrase = f"À la date du {date} il y a eu {a} trains en retard"
+        phrase = f" Durant la journée du {jour} il y a eu un total de {a} trains en circulation. C'est train au traversé {b} stations. Natruellemt, il y a eu des trains avec du retard.\n\
+ Durant la journée du {jour} il y a eu près de {c} trains en retard ce qui correspond à près de {d} % de tout les trains qui on circuler. {e} gares on été traversé\n\
+ par ses trains en retard. Ce qui correspond a {f} % de toutes les gares traversé durant cette même journée. C'est trains en retads on aussi eu un impact sur les lignes\n\
+ ouverte dans le journé du {jour}, car sur les {g} lignes ouvertes près de {u} % des lignes ont eu au moins un trains de retard. Il y eu seulement {round(g-(g*u)/100)} lignes\n\
+ sans retard, c'est à dire {round(100-u,2)} %."
         self.builder.get_object("info_label").set_label(_(phrase))
   
 if __name__ == "__main__":
