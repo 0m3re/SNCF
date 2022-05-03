@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 
 #
-import time
+import random
 from loadgui import load, city_time, city_lat_lon
 from loadmap import photo
+import numpy
 
 # Path
-import subprocess
 import os
 import datetime
 
@@ -20,6 +20,9 @@ from gi.repository import Gtk, Gio, GdkPixbuf
 _ = gettext.gettext
 dir = 'calculus'
 date = datetime.date.today() - datetime.timedelta(1)
+lst_color = ['red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray']
+
+
 
 # create date list
 date_list = []
@@ -27,17 +30,6 @@ for f in os.listdir(dir):
     if os.path.isfile(os.path.join(dir, f)):
         begin, end = f.split('.')
         date_list.append(begin)
-
-# # get relative path
-# rel_path_icon = subprocess.run(['find', '-name', 'visuel.svg'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
-# rel_path_glade = subprocess.run(['find', '-name', 'visuel.ui'], stdout=subprocess.PIPE).stdout.decode('utf-8').replace('\n', '')
-
-# # get absolute path
-# # it's possible to just use the relative path but the absolute path is better
-# abs_path_folder = subprocess.run(['pwd'
-# ], stdout=subprocess.PIPE).stdout.decode('utf-8')
-# abs_path_icon = rel_path_icon.replace('./', abs_path_folder + '/').replace('\n', '')
-# abs_path_glade = rel_path_glade.replace('./', abs_path_folder + '/').replace('\n', '')
 
 # Code GUI Application
 class MyApplication(Gtk.Application):
@@ -159,7 +151,8 @@ class MainWindow():
     
     def img_time(self, jour):
         lst_lat_time, lst_long_time, lst_lat_number, lst_long_number = city_lat_lon(jour)
-        photo(jour, lst_lat_time, lst_long_time)
+        color = numpy.random.choice(lst_color)
+        photo(jour, lst_lat_time, lst_long_time, color)
     
     def on_reload_button(self, widget):
         jour = date_list[self.app_combo.get_active()]
