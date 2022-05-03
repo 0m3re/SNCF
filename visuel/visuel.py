@@ -2,7 +2,7 @@
 
 #
 import time
-from loadgui import load, city_time
+from loadgui import load, city_time, city_lat_lon
 from loadmap import photo
 
 # Path
@@ -149,19 +149,20 @@ class MainWindow():
         dialog.connect("response", close)
         dialog.show()
         
-    def on_app_changed(self, widget): 
+    def on_app_changed(self, widget):
         jour = date_list[self.app_combo.get_active()]
         self.load_files(str(jour))
+        return jour
     
     def on_menu_quit(self, widget):
         self.application.quit()
     
     def img_time(self, jour):
-        lst_data, lst_value, lst_lat, lst_long = city_time(jour)
-        time.sleep(2)
-        photo(jour, lst_lat, lst_long)
+        lst_lat_time, lst_long_time, lst_lat_number, lst_long_number = city_lat_lon(jour)
+        photo(jour, lst_lat_time, lst_long_time)
     
     def on_reload_button(self, widget):
+        jour = date_list[self.app_combo.get_active()]
         self.img_time(jour)
         
     def load_files(self, jour):
@@ -169,10 +170,12 @@ class MainWindow():
         phrase = f"During the day of {jour}, there were a total of {a} trains running. These trains passed through {b} stations. Naturally, there were some late trains. There were nearly {c} trains late, which corresponds to nearly {d} % of all the trains running. {e} stations have been crossed by these late trains. This corresponds to {f}% of all stations visited during the same day. These late trains also had an impact on the lines open during the day of {jour}, because on the {g} lines open, nearly {u} % had at least one train late. There were only {round(g-(g*u)/100)} lines without delay, namely {round(100-u,2)} %. At this stage you are probably saying to yourself : But the accumulated time must be enormous ! No it's only {n}."
         self.builder.get_object("info_label").set_label(_(phrase))
         
-        lst_data, lst_value, lst_lat, lst_long = city_time(jour)
+        lst_data_time, lst_value_time, lst_data_number, lst_value_number = city_time(jour)
         for i in range(10):
-            self.builder.get_object(f"gare{i}").set_label(_(lst_data[i]))
-            self.builder.get_object(f"time{i}").set_label(_(lst_value[i]))
+            self.builder.get_object(f"gare{i}").set_label(_(lst_data_time[i]))
+            self.builder.get_object(f"time{i}").set_label(_(lst_value_time[i]))
+            self.builder.get_object(f"gare_{i}").set_label(_(str(lst_data_number[i])))
+            self.builder.get_object(f"number{i}").set_label(_(str(lst_value_number[i])))
         
         self.img_time(jour)
         
