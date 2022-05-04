@@ -20,7 +20,7 @@ from gi.repository import Gtk, Gio, GdkPixbuf
 _ = gettext.gettext
 dir = 'calculus'
 date = datetime.date.today() - datetime.timedelta(1)
-date = datetime.date.today() - datetime.timedelta(1)
+date = '2022-05-02'
 lst_color = ['red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray']
 
 
@@ -186,10 +186,12 @@ class MainWindow():
             self.builder.get_object(f"gare_{i}").set_label(_(str(lst_data_number[i])))
             self.builder.get_object(f"number{i}").set_label(_(str(lst_value_number[i])))
         
-        self.img_time(jour)
+        if not os.path.exists(f'visuel/img/{jour}1.png'):
+            self.img_time(jour)
 
         self.builder.get_object("gare_img1").set_from_file(f"visuel/img/{jour}1.png")
         self.builder.get_object("gare_img2").set_from_file(f"visuel/img/{jour}2.png")
+    
             
           
 if __name__ == "__main__":
