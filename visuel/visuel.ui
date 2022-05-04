@@ -111,7 +111,8 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Déjà dans un train et vous vous êtes dit : la SNCF est toujours en retard !</property>
+                            <property name="label" translatable="yes">Déjà dans un train et vous vous êtes dit : la SNCF est toujours en retard !
+</property>
                             <property name="wrap">True</property>
                           </object>
                           <packing>
@@ -191,28 +192,28 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox">
+                      <object class="GtkStack" id="stack">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_top">5</property>
                         <child>
-                          <object class="GtkFrame">
+                          <object class="GtkBox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label_xalign">0</property>
-                            <property name="shadow_type">in</property>
+                            <property name="margin_top">5</property>
                             <child>
-                              <object class="GtkAlignment">
+                              <object class="GtkFrame">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="margin_left">10</property>
-                                <property name="margin_right">10</property>
-                                <property name="margin_top">5</property>
-                                <property name="margin_bottom">5</property>
+                                <property name="label_xalign">0</property>
+                                <property name="shadow_type">in</property>
                                 <child>
-                                  <object class="GtkStack" id="stack">
+                                  <object class="GtkAlignment">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="margin_left">10</property>
+                                    <property name="margin_right">10</property>
+                                    <property name="margin_top">5</property>
+                                    <property name="margin_bottom">5</property>
                                     <child>
                                       <object class="GtkGrid" id="grip_delay">
                                         <property name="visible">True</property>
@@ -616,7 +617,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo0">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -626,7 +627,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo1">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -636,7 +637,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo2">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -646,7 +647,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo3">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -656,7 +657,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo4">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -666,7 +667,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo5">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -676,7 +677,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo6">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -686,7 +687,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo7">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -696,7 +697,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo8">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -706,7 +707,7 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkComboBox">
+                                          <object class="GtkComboBox" id="combo9">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                           </object>
@@ -725,11 +726,70 @@
                                           <placeholder/>
                                         </child>
                                       </object>
-                                      <packing>
-                                        <property name="name">page0</property>
-                                        <property name="title" translatable="yes">page0</property>
-                                      </packing>
                                     </child>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkAlignment">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="margin_left">30</property>
+                                    <child>
+                                      <object class="GtkImage" id="gare_img">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="pixbuf">img/2022-05-02.png</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="name">page0</property>
+                            <property name="title" translatable="yes">page0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_top">5</property>
+                            <child>
+                              <object class="GtkFrame">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label_xalign">0</property>
+                                <property name="shadow_type">in</property>
+                                <child>
+                                  <object class="GtkAlignment">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="margin_top">5</property>
+                                    <property name="margin_bottom">5</property>
                                     <child>
                                       <object class="GtkGrid" id="grid_number">
                                         <property name="visible">True</property>
@@ -1242,38 +1302,7 @@
                                           <placeholder/>
                                         </child>
                                       </object>
-                                      <packing>
-                                        <property name="name">page1</property>
-                                        <property name="title" translatable="yes">page1</property>
-                                        <property name="position">1</property>
-                                      </packing>
                                     </child>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="orientation">vertical</property>
-                            <child>
-                              <object class="GtkAlignment">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="margin_left">30</property>
-                                <child>
-                                  <object class="GtkImage" id="gare_img">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="pixbuf">img/2022-05-02.png</property>
                                   </object>
                                 </child>
                               </object>
@@ -1283,10 +1312,40 @@
                                 <property name="position">0</property>
                               </packing>
                             </child>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkAlignment">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <child>
+                                      <object class="GtkImage" id="gare_img2">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="pixbuf">img/2022-05-02.png</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
+                            <property name="name">page2</property>
+                            <property name="title" translatable="yes">page2</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
