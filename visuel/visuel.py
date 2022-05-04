@@ -20,7 +20,7 @@ from gi.repository import Gtk, Gio, GdkPixbuf
 _ = gettext.gettext
 dir = 'calculus'
 date = datetime.date.today() - datetime.timedelta(1)
-date = '2022-05-02'
+date = datetime.date.today() - datetime.timedelta(1)
 lst_color = ['red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray']
 
 
@@ -78,6 +78,19 @@ class MainWindow():
         self.app_combo.pack_start(self.renderer, True)
         self.app_combo.add_attribute(self.renderer, "text", 0)
         self.app_combo.set_model(self.app_model)
+        
+        #load colors
+        self.color_model = Gtk.ListStore(str)
+        for i in lst_color:
+            self.color_model.append([i])
+        
+        combo = [f" self.combo{i}," for i in range(10)]
+        for i in range(10):
+            combo[i] = self.builder.get_object(f"combo{i}")
+            self.renderer = Gtk.CellRendererText()
+            combo[i].pack_start(self.renderer, True)
+            combo[i].add_attribute(self.renderer, "text", 0)
+            combo[i].set_model(self.color_model)
             
         # Widget signals
         self.app_combo.connect("changed", self.on_app_changed)
