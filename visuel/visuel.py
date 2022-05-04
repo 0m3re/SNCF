@@ -20,6 +20,7 @@ from gi.repository import Gtk, Gio, GdkPixbuf
 _ = gettext.gettext
 dir = 'calculus'
 date = datetime.date.today() - datetime.timedelta(1)
+date = '2022-05-02'
 lst_color = ['red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray']
 
 
@@ -77,7 +78,6 @@ class MainWindow():
         self.app_combo.pack_start(self.renderer, True)
         self.app_combo.add_attribute(self.renderer, "text", 0)
         self.app_combo.set_model(self.app_model)
-        self.app_combo.set_active(0) # Select 1st app
             
         # Widget signals
         self.app_combo.connect("changed", self.on_app_changed)
@@ -152,7 +152,10 @@ class MainWindow():
     def img_time(self, jour):
         lst_lat_time, lst_long_time, lst_lat_number, lst_long_number = city_lat_lon(jour)
         color = numpy.random.choice(lst_color)
-        photo(jour, lst_lat_time, lst_long_time, color)
+        one = 1
+        two = 2
+        photo(jour, lst_lat_time, lst_long_time, color, one)
+        photo(jour, lst_lat_number, lst_long_number, color, two)
     
     def on_reload_button(self, widget):
         jour = date_list[self.app_combo.get_active()]
@@ -171,8 +174,9 @@ class MainWindow():
             self.builder.get_object(f"number{i}").set_label(_(str(lst_value_number[i])))
         
         self.img_time(jour)
-        
-        self.builder.get_object("gare_img").set_from_file(f"visuel/img/{jour}.png")
+
+        self.builder.get_object("gare_img1").set_from_file(f"visuel/img/{jour}1.png")
+        self.builder.get_object("gare_img2").set_from_file(f"visuel/img/{jour}2.png")
             
           
 if __name__ == "__main__":
