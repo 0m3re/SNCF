@@ -20,8 +20,9 @@ from gi.repository import Gtk, Gio, GdkPixbuf
 _ = gettext.gettext
 dir = 'calculus'
 date = datetime.date.today() - datetime.timedelta(1)
-date = '2022-05-02'
-lst_color = ['red', 'blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue', 'darkpurple', 'white', 'pink', 'lightblue', 'lightgreen', 'gray', 'black', 'lightgray']
+date = datetime.date.today() - datetime.timedelta(1)
+lst_color = ['🍎️', '🐙️', '🌵', '🍊', '🥠️', '🐾️', '🍇️', '🧠️', '🔘️', '🐸️', '🐘️', '⚫️', '🦍️', '🌚️']
+dict_color = {'🐙️' : 'lightred', '🍎️' : 'red', '🌵' : 'green', '🍊' : 'orange', '🥠️' : 'beige', '🐾️': 'darkblue', '🍇️': 'darkpurple', '🧠️': 'pink', '🔘️': 'lightblue', '🐸️': 'lightgreen', '🐘️': 'lightgray', '⚫️': 'black', '🦍️': 'gray', '🌚️': 'cadetblue'}
 
 
 
@@ -96,10 +97,12 @@ class MainWindow():
         self.app_combo.connect("changed", self.on_app_changed)
         
         # Create variables to quickly access dynamic widgets
-        self.reload_button = self.builder.get_object("reload_img")
+        self.reload_button1 = self.builder.get_object("reload_img1")
+        self.reload_button2 = self.builder.get_object("reload_img2")
         
         # Widget signals
-        self.reload_button.connect("clicked", self.on_reload_button)
+        self.reload_button1.connect("clicked", self.on_reload_button1)
+        self.reload_button2.connect("clicked", self.on_reload_button2)
          
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -166,14 +169,22 @@ class MainWindow():
         lst_lat_time, lst_long_time, lst_lat_number, lst_long_number = city_lat_lon(jour)
         color = numpy.random.choice(lst_color)
         one = 1
-        two = 2
         photo(jour, lst_lat_time, lst_long_time, color, one)
+    
+    def img_number(self, jour):
+        lst_lat_time, lst_long_time, lst_lat_number, lst_long_number = city_lat_lon(jour)
+        color = numpy.random.choice(lst_color)
+        two = 2
         photo(jour, lst_lat_number, lst_long_number, color, two)
     
-    def on_reload_button(self, widget):
+    def on_reload_button1(self, widget):
         jour = date_list[self.app_combo.get_active()]
         self.img_time(jour)
-        
+    
+    def on_reload_button2(self, widget):
+        jour = date_list[self.app_combo.get_active()]
+        self.img_number(jour)
+            
     def load_files(self, jour):
         a, b, c, d, e, f, g, n, u = load(jour)
         phrase = f"During the day of {jour}, there were a total of {a} trains running. These trains passed through {b} stations. Naturally, there were some late trains. There were nearly {c} trains late, which corresponds to nearly {d} % of all the trains running. {e} stations have been crossed by these late trains. This corresponds to {f}% of all stations visited during the same day. These late trains also had an impact on the lines open during the day of {jour}, because on the {g} lines open, nearly {u} % had at least one train late. There were only {round(g-(g*u)/100)} lines without delay, namely {round(100-u,2)} %. At this stage you are probably saying to yourself : But the accumulated time must be enormous ! No it's only {n}."
@@ -186,12 +197,11 @@ class MainWindow():
             self.builder.get_object(f"gare_{i}").set_label(_(str(lst_data_number[i])))
             self.builder.get_object(f"number{i}").set_label(_(str(lst_value_number[i])))
         
-        if not os.path.exists(f'visuel/img/{jour}1.png'):
+        if not os.path.exists(f"visuel/img/{jour}1.png"):
             self.img_time(jour)
 
         self.builder.get_object("gare_img1").set_from_file(f"visuel/img/{jour}1.png")
         self.builder.get_object("gare_img2").set_from_file(f"visuel/img/{jour}2.png")
-    
             
           
 if __name__ == "__main__":
