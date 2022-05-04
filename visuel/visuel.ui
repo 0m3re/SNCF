@@ -41,6 +41,7 @@
           <object class="GtkComboBox" id="app_combo">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="active">0</property>
           </object>
           <packing>
             <property name="position">1</property>
