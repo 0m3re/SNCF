@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
 #
+from logging.config import dictConfig
 import random
-from loadgui import load, city_time, city_lat_lon
+from loadgui import load, city_time, city_lat_lon_1, city_lat_lon_2
 from loadmap import photo
 import numpy
 
@@ -22,7 +23,7 @@ dir = 'calculus'
 date = datetime.date.today() - datetime.timedelta(1)
 date = datetime.date.today() - datetime.timedelta(1)
 lst_color = ['🍎️', '🐙️', '🌵', '🍊', '🥠️', '🐾️', '🍇️', '🧠️', '🔘️', '🐸️', '🐘️', '⚫️', '🦍️', '🌚️']
-dict_color = {'🐙️' : 'lightred', '🍎️' : 'red', '🌵' : 'green', '🍊' : 'orange', '🥠️' : 'beige', '🐾️': 'darkblue', '🍇️': 'darkpurple', '🧠️': 'pink', '🔘️': 'lightblue', '🐸️': 'lightgreen', '🐘️': 'lightgray', '⚫️': 'black', '🦍️': 'gray', '🌚️': 'cadetblue'}
+dict_color = { '0' : 'red', '1' : 'lightred', '2' : 'green', '3' : 'orange', '4' : 'beige', '5': 'darkblue', '6': 'darkpurple', '7': 'pink', '8': 'lightblue', '9': 'lightgreen', '10': 'lightgray', '11': 'black', '12': 'gray', '13': 'cadetblue'}
 
 
 
@@ -32,6 +33,7 @@ for f in os.listdir(dir):
     if os.path.isfile(os.path.join(dir, f)):
         begin, end = f.split('.')
         date_list.append(begin)
+        date_list.sort(reverse=True)
 
 # Code GUI Application
 class MyApplication(Gtk.Application):
@@ -85,13 +87,13 @@ class MainWindow():
         for i in lst_color:
             self.color_model.append([i])
         
-        combo = [f" self.combo{i}," for i in range(10)]
-        for i in range(10):
-            combo[i] = self.builder.get_object(f"combo{i}")
+        self.combo = [f"self.combo{i}" for i in range(20)]
+        for i in range(20):
+            self.combo[i] = self.builder.get_object(f"combo{i}")
             self.renderer = Gtk.CellRendererText()
-            combo[i].pack_start(self.renderer, True)
-            combo[i].add_attribute(self.renderer, "text", 0)
-            combo[i].set_model(self.color_model)
+            self.combo[i].pack_start(self.renderer, True)
+            self.combo[i].add_attribute(self.renderer, "text", 0)
+            self.combo[i].set_model(self.color_model)
             
         # Widget signals
         self.app_combo.connect("changed", self.on_app_changed)
@@ -166,24 +168,31 @@ class MainWindow():
         self.application.quit()
     
     def img_time(self, jour):
-        lst_lat_time, lst_long_time, lst_lat_number, lst_long_number = city_lat_lon(jour)
-        color = numpy.random.choice(lst_color)
+        lst_lat_time, lst_long_time = city_lat_lon_1(jour)
         one = 1
-        photo(jour, lst_lat_time, lst_long_time, color, one)
+        choosed_color = []
+        for i in range(10):     
+            choosed_color.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
+        photo(jour, lst_lat_time, lst_long_time, choosed_color, one)
     
     def img_number(self, jour):
-        lst_lat_time, lst_long_time, lst_lat_number, lst_long_number = city_lat_lon(jour)
-        color = numpy.random.choice(lst_color)
+        lst_lat_number, lst_long_number = city_lat_lon_2(jour)
         two = 2
-        photo(jour, lst_lat_number, lst_long_number, color, two)
+        choosed_color = []
+        for i in range(10,20):   
+            choosed_color.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
+        photo(jour, lst_lat_number, lst_long_number, choosed_color, two)
     
     def on_reload_button1(self, widget):
         jour = date_list[self.app_combo.get_active()]
         self.img_time(jour)
+        self.builder.get_object("gare_img1").set_from_file(f"visuel/img/{jour}1.png")
+        
     
     def on_reload_button2(self, widget):
         jour = date_list[self.app_combo.get_active()]
         self.img_number(jour)
+        self.builder.get_object("gare_img1").set_from_file(f"visuel/img/{jour}2.png")
             
     def load_files(self, jour):
         a, b, c, d, e, f, g, n, u = load(jour)
@@ -197,8 +206,9 @@ class MainWindow():
             self.builder.get_object(f"gare_{i}").set_label(_(str(lst_data_number[i])))
             self.builder.get_object(f"number{i}").set_label(_(str(lst_value_number[i])))
         
-        if not os.path.exists(f"visuel/img/{jour}1.png"):
+        if not os.path.exists(f"visuel/img/{jour}1.png") or not os.path.exists(f"visuel/img/{jour}2.png"):
             self.img_time(jour)
+            self.img_number(jour)
 
         self.builder.get_object("gare_img1").set_from_file(f"visuel/img/{jour}1.png")
         self.builder.get_object("gare_img2").set_from_file(f"visuel/img/{jour}2.png")
