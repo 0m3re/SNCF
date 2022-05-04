@@ -52,20 +52,27 @@ def city_time(directory):
             
         return lst_data_time, lst_value_time, lst_data_number, lst_value_number
 
-def city_lat_lon(directory):
+def city_lat_lon_1(directory):
     with open(f'calculus/{directory}.txt') as json_file: # how to access the file 
         data = json.load(json_file)
         lst_lat_time = []
         lst_lon_time = []
-        lst_lat_number = []
-        lst_lon_number = []
         for i in range(10):
             lst_lat_time.append(data["citi_time_impacted"][f"lat{i}"])
             lst_lon_time.append(data["citi_time_impacted"][f"lon{i}"])
+            
+        return lst_lat_time, lst_lon_time
+
+def city_lat_lon_2(directory):
+    with open(f'calculus/{directory}.txt') as json_file: # how to access the file 
+        data = json.load(json_file)
+        lst_lat_number = []
+        lst_lon_number = []
+        for i in range(10):
             lst_lat_number.append(data["citi_impacted"][f"lat{i}"])
             lst_lon_number.append(data["citi_impacted"][f"lon{i}"])
             
-        return lst_lat_time, lst_lon_time, lst_lat_number, lst_lon_number
+        return lst_lat_number, lst_lon_number
         
 
 # print('a',a)
