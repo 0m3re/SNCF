@@ -192,7 +192,7 @@ class MainWindow():
     def on_reload_button2(self, widget):
         jour = date_list[self.app_combo.get_active()]
         self.img_number(jour)
-        self.builder.get_object("gare_img1").set_from_file(f"visuel/img/{jour}2.png")
+        self.builder.get_object("gare_img2").set_from_file(f"visuel/img/{jour}2.png")
             
     def load_files(self, jour):
         a, b, c, d, e, f, g, n, u = load(jour)
