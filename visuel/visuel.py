@@ -3,9 +3,13 @@
 #
 from logging.config import dictConfig
 import random
+
+import matplotlib
 from loadgui import load, city_time, city_lat_lon_1, city_lat_lon_2
 from loadmap import photo
-import numpy
+from piechart import pie_chart
+from hex_to_rgba import hex_to_rgba
+from rgba_to_hex import rgba_to_hex
 
 # Path
 import os
@@ -15,13 +19,14 @@ import datetime
 import gi
 import gettext
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, Gio, GdkPixbuf
+from gi.repository import Gtk, Gio, GdkPixbuf, Gdk
 
 # variables
 _ = gettext.gettext
 dir = 'calculus'
-date = datetime.date.today() - datetime.timedelta(1)
-date = datetime.date.today() - datetime.timedelta(1)
+#date = datetime.date.today() - datetime.timedelta(1)
+date = '2022-05-02'
+colors = ['#ff0000ff', '#ff7f00ff', '#00ffffff', '#096a09ff', '#24445cff', '#ffff00ff', '#2e006cff', '#f056ffff', '#1b019bff', '#6c0277ff']
 lst_color = ['🍎️', '🐙️', '🌵', '🍊', '🥠️', '🐾️', '🍇️', '🧠️', '🔘️', '🐸️', '🐘️', '⚫️', '🦍️', '🌚️']
 dict_color = { '0' : 'red', '1' : 'lightred', '2' : 'green', '3' : 'orange', '4' : 'beige', '5': 'darkblue', '6': 'darkpurple', '7': 'pink', '8': 'lightblue', '9': 'lightgreen', '10': 'lightgray', '11': 'black', '12': 'gray', '13': 'cadetblue'}
 
@@ -95,16 +100,27 @@ class MainWindow():
             self.combo[i].add_attribute(self.renderer, "text", 0)
             self.combo[i].set_model(self.color_model)
             
+            
+        for i in range(10):
+            self.color_button = self.builder.get_object(f"colorbt{i}")
+            rgba = hex_to_rgba(colors[i])
+            print(rgba)
+            self.color_button.set_rgba(Gdk.RGBA(rgba[0], rgba[1], rgba[2], rgba[3]))
+            
+
+            
         # Widget signals
         self.app_combo.connect("changed", self.on_app_changed)
         
         # Create variables to quickly access dynamic widgets
         self.reload_button1 = self.builder.get_object("reload_img1")
         self.reload_button2 = self.builder.get_object("reload_img2")
+        self.reload_pie = self.builder.get_object("reload_pie")
         
         # Widget signals
         self.reload_button1.connect("clicked", self.on_reload_button1)
         self.reload_button2.connect("clicked", self.on_reload_button2)
+        self.reload_pie.connect("clicked", self.on_reload_pie)
          
         # Menubar
         accel_group = Gtk.AccelGroup()
@@ -193,6 +209,14 @@ class MainWindow():
         jour = date_list[self.app_combo.get_active()]
         self.img_number(jour)
         self.builder.get_object("gare_img2").set_from_file(f"visuel/img/{jour}2.png")
+    
+    def on_reload_pie(self, widget):
+        jour = date_list[self.app_combo.get_active()]
+        for i in range(10):
+            rgba = self.color_button[i].get_rgba()
+            print(rgba)
+        
+        pie_chart(jour, colors)
             
     def load_files(self, jour):
         a, b, c, d, e, f, g, n, u = load(jour)
@@ -209,9 +233,14 @@ class MainWindow():
         if not os.path.exists(f"visuel/img/{jour}1.png") or not os.path.exists(f"visuel/img/{jour}2.png"):
             self.img_time(jour)
             self.img_number(jour)
+        
+        if not os.path.exists(f"visuel/img/{jour}_pie_chart.png"):
+            pie_chart(jour, colors)
 
         self.builder.get_object("gare_img1").set_from_file(f"visuel/img/{jour}1.png")
         self.builder.get_object("gare_img2").set_from_file(f"visuel/img/{jour}2.png")
+        
+        self.builder.get_object("pie_chart").set_from_file(f"visuel/img/{jour}_pie_chart.png")
             
           
 if __name__ == "__main__":
