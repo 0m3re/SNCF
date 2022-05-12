@@ -73,6 +73,19 @@ def city_lat_lon_2(directory):
             lst_lon_number.append(data["citi_impacted"][f"lon{i}"])
             
         return lst_lat_number, lst_lon_number
+    
+def problems(directory):
+    with open(f'calculus/{directory}.txt') as json_file: # how to access the file 
+        data = json.load(json_file)
+        # get h and i from the data loop through the data
+        lst_h = []
+        lst_i = []
+        for j in range(10):
+            lst_h.append(data["disruptions_message"][f'data{j}'])
+            lst_i.append(data["disruptions_message"][f'value{j}'] )
+
+
+        return lst_h, lst_i
         
 
 # print('a',a)
