@@ -1,11 +1,6 @@
 #!/usr/bin/python3
 
-#
-from logging.config import dictConfig
-import random
-
-import matplotlib
-from loadgui import load, city_time, city_lat_lon_1, city_lat_lon_2
+from loadgui import load, city_time, city_lat_lon_1, city_lat_lon_2, problems
 from loadmap import photo
 from piechart import pie_chart
 from hex_to_rgba import hex_to_rgba
@@ -104,7 +99,6 @@ class MainWindow():
         for i in range(10):
             self.color_button = self.builder.get_object(f"colorbt{i}")
             rgba = hex_to_rgba(colors[i])
-            print(rgba)
             self.color_button.set_rgba(Gdk.RGBA(rgba[0], rgba[1], rgba[2], rgba[3]))
             
 
@@ -224,11 +218,14 @@ class MainWindow():
         self.builder.get_object("info_label").set_label(_(phrase))
         
         lst_data_time, lst_value_time, lst_data_number, lst_value_number = city_time(jour)
+        lst_problems, lst_pourcentage = problems(jour)
         for i in range(10):
             self.builder.get_object(f"gare{i}").set_label(_(lst_data_time[i]))
             self.builder.get_object(f"time{i}").set_label(_(lst_value_time[i]))
             self.builder.get_object(f"gare_{i}").set_label(_(str(lst_data_number[i])))
             self.builder.get_object(f"number{i}").set_label(_(str(lst_value_number[i])))
+            self.builder.get_object(f"pb_{i}").set_label(_(lst_problems[i]))
+            
         
         if not os.path.exists(f"visuel/img/{jour}1.png") or not os.path.exists(f"visuel/img/{jour}2.png"):
             self.img_time(jour)
