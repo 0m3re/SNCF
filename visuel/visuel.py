@@ -207,8 +207,11 @@ class MainWindow():
     def on_reload_pie(self, widget):
         jour = date_list[self.app_combo.get_active()]
         for i in range(10):
-            rgba = self.color_button[i].get_rgba()
+            self.color_button = self.builder.get_object(f"colorbt{i}")
+            rgba = self.color_button.get_rgba()
             print(rgba)
+            a = rgba[1]
+            print(a)
         
         pie_chart(jour, colors)
             
