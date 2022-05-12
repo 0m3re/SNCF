@@ -215,6 +215,8 @@
                                     <property name="margin_right">10</property>
                                     <property name="margin_top">5</property>
                                     <property name="margin_bottom">5</property>
+                                    <property name="top_padding">8</property>
+                                    <property name="bottom_padding">8</property>
                                     <property name="left_padding">12</property>
                                     <property name="right_padding">12</property>
                                     <child>
@@ -1421,6 +1423,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_top">20</property>
+                        <property name="spacing">47</property>
                         <child>
                           <object class="GtkBox">
                             <property name="visible">True</property>
@@ -1430,6 +1433,7 @@
                               <object class="GtkAlignment">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="left_padding">24</property>
                                 <child>
                                   <object class="GtkImage" id="pie_chart">
                                     <property name="visible">True</property>
@@ -1461,6 +1465,8 @@
                               <object class="GtkAlignment">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="top_padding">8</property>
+                                <property name="bottom_padding">8</property>
                                 <property name="left_padding">12</property>
                                 <property name="right_padding">12</property>
                                 <child>
@@ -1604,6 +1610,8 @@
                                       <object class="GtkAlignment">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="left_padding">106</property>
+                                        <property name="right_padding">106</property>
                                         <child>
                                           <object class="GtkLabel">
                                             <property name="visible">True</property>
