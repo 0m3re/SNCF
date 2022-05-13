@@ -240,6 +240,15 @@ class MainWindow():
         phrase = f"During the day of {jour}, there were a total of {a} trains running. These trains passed through {b} stations. Naturally, there were some late trains. There were nearly {c} trains late, which corresponds to nearly {d} % of all the trains running. {e} stations have been crossed by these late trains. This corresponds to {f}% of all stations visited during the same day. These late trains also had an impact on the lines open during the day of {jour}, because on the {g} lines open, nearly {u} % had at least one train late. There were only {round(g-(g*u)/100)} lines without delay, namely {round(100-u,2)} %. At this stage you are probably saying to yourself : But the accumulated time must be enormous ! No it's only {n}."
         self.builder.get_object("info_label").set_label(_(phrase))
         
+        text0 = f""
+        self.builder.get_object("text_0").set_label(_(text0))
+        text1 = f""
+        self.builder.get_object("text_0").set_label(_(text1))
+        text2 = f""
+        self.builder.get_object("text_0").set_label(_(text2))
+        text3 = f""
+        self.builder.get_object("text_0").set_label(_(text3))
+        
         lst_data_time, lst_value_time, lst_data_number, lst_value_number = city_time(jour)
         lst_problems, lst_pourcentage = problems(jour)
         for i in range(10):
