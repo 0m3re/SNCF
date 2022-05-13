@@ -1,9 +1,9 @@
-#! /usr/bin/python3
+#!/usr/bin/python3
 
 import json
 
-def load(directory):
-    with open(f'calculus/{directory}.txt') as json_file: # how to access the file 
+def load(jour):
+    with open(f'calculus/{jour}.txt') as json_file: # how to access the file 
         data = json.load(json_file)
         a = data["vehicle"]
         b = data["stop_times"]
@@ -37,8 +37,8 @@ def load(directory):
     
     return a, b, c, d, e, f, g, n, u
 
-def city_time(directory):
-    with open(f'calculus/{directory}.txt') as json_file: # how to access the file 
+def city_time(jour):
+    with open(f'calculus/{jour}.txt') as json_file: # how to access the file 
         data = json.load(json_file)
         lst_data_time = []
         lst_value_time = []
@@ -52,8 +52,8 @@ def city_time(directory):
             
         return lst_data_time, lst_value_time, lst_data_number, lst_value_number
 
-def city_lat_lon_1(directory):
-    with open(f'calculus/{directory}.txt') as json_file: # how to access the file 
+def city_lat_lon_1(jour):
+    with open(f'calculus/{jour}.txt') as json_file: # how to access the file 
         data = json.load(json_file)
         lst_lat_time = []
         lst_lon_time = []
@@ -63,8 +63,8 @@ def city_lat_lon_1(directory):
             
         return lst_lat_time, lst_lon_time
 
-def city_lat_lon_2(directory):
-    with open(f'calculus/{directory}.txt') as json_file: # how to access the file 
+def city_lat_lon_2(jour):
+    with open(f'calculus/{jour}.txt') as json_file: # how to access the file 
         data = json.load(json_file)
         lst_lat_number = []
         lst_lon_number = []
@@ -74,15 +74,15 @@ def city_lat_lon_2(directory):
             
         return lst_lat_number, lst_lon_number
     
-def problems(directory):
-    with open(f'calculus/{directory}.txt') as json_file: # how to access the file 
+def problems(jour):
+    with open(f'calculus/{jour}.txt') as json_file: # how to access the file 
         data = json.load(json_file)
         # get h and i from the data loop through the data
         lst_h = []
         lst_i = []
         for j in range(10):
             lst_h.append(data["disruptions_message"][f'data{j}'])
-            lst_i.append(data["disruptions_message"][f'value{j}'] )
+            lst_i.append(data["disruptions_message"][f'value{j}'])
 
 
         return lst_h, lst_i
