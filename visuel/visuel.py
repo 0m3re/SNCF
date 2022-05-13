@@ -1,14 +1,16 @@
 #!/usr/bin/python3
 
-from loadgui import load, city_time, city_lat_lon_1, city_lat_lon_2, problems
+from loadgui import *
 from loadmap import photo
 from piechart import pie_chart
-from hex_to_rgba import hex_to_rgba
-from rgba_to_hex import rgba_to_hex
+from hex_to_gdkrgba import hex_to_gdkrgba
+from gdkrgba_to_hex import gdkrgba_to_hex
+from colorsave import colorsave
 
 # Path
 import os
 import datetime
+import json 
 
 # GUI Application
 import gi
@@ -21,7 +23,6 @@ _ = gettext.gettext
 dir = 'calculus'
 #date = datetime.date.today() - datetime.timedelta(1)
 date = '2022-05-02'
-colors = ['#ff0000ff', '#ff7f00ff', '#00ffffff', '#096a09ff', '#24445cff', '#ffff00ff', '#2e006cff', '#f056ffff', '#1b019bff', '#6c0277ff']
 lst_color = ['🍎️', '🐙️', '🌵', '🍊', '🥠️', '🐾️', '🍇️', '🧠️', '🔘️', '🐸️', '🐘️', '⚫️', '🦍️', '🌚️']
 dict_color = { '0' : 'red', '1' : 'lightred', '2' : 'green', '3' : 'orange', '4' : 'beige', '5': 'darkblue', '6': 'darkpurple', '7': 'pink', '8': 'lightblue', '9': 'lightgreen', '10': 'lightgray', '11': 'black', '12': 'gray', '13': 'cadetblue'}
 
@@ -95,14 +96,6 @@ class MainWindow():
             self.combo[i].add_attribute(self.renderer, "text", 0)
             self.combo[i].set_model(self.color_model)
             
-            
-        for i in range(10):
-            self.color_button = self.builder.get_object(f"colorbt{i}")
-            rgba = hex_to_rgba(colors[i])
-            self.color_button.set_rgba(Gdk.RGBA(rgba[0], rgba[1], rgba[2], rgba[3]))
-            
-
-            
         # Widget signals
         self.app_combo.connect("changed", self.on_app_changed)
         
@@ -160,7 +153,7 @@ class MainWindow():
 
         dialog.set_version("1.0.0")
         dialog.set_icon_name("visuel")
-        dialog.set_logo(GdkPixbuf.Pixbuf.new_from_file('visuel/icons/visuel.py'))
+        dialog.set_logo(GdkPixbuf.Pixbuf.new_from_file('visuel/icons/visuel.svg'))
         dialog.set_website('https://github.com/0m3re/SNCF')
         dialog.set_authors(['David Glaser', 'Victor Plage'])
         def close(w, res):
@@ -180,41 +173,68 @@ class MainWindow():
     def img_time(self, jour):
         lst_lat_time, lst_long_time = city_lat_lon_1(jour)
         one = 1
-        choosed_color = []
+        choosed_color1 = []
         for i in range(10):     
-            choosed_color.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
-        photo(jour, lst_lat_time, lst_long_time, choosed_color, one)
+            choosed_color1.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
+        photo(jour, lst_lat_time, lst_long_time, choosed_color1, one)
     
-    def img_number(self, jour):
+    def img_number(self, jour): 
         lst_lat_number, lst_long_number = city_lat_lon_2(jour)
         two = 2
-        choosed_color = []
+        choosed_color2 = []
         for i in range(10,20):   
-            choosed_color.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
-        photo(jour, lst_lat_number, lst_long_number, choosed_color, two)
+            choosed_color2.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
+        photo(jour, lst_lat_number, lst_long_number, choosed_color2, two)
+    
+    def img_pie(self, jour):
+        colors = []
+        for i in range(10):
+            self.color_button = self.builder.get_object(f"colorbt{i}")
+            rgba = self.color_button.get_rgba()
+            colors.append(gdkrgba_to_hex(rgba))
+        pie_chart(jour, colors)
     
     def on_reload_button1(self, widget):
         jour = date_list[self.app_combo.get_active()]
         self.img_time(jour)
         self.builder.get_object("gare_img1").set_from_file(f"visuel/img/{jour}1.png")
+        self.save_to_file()
         
     
     def on_reload_button2(self, widget):
         jour = date_list[self.app_combo.get_active()]
         self.img_number(jour)
         self.builder.get_object("gare_img2").set_from_file(f"visuel/img/{jour}2.png")
+        self.save_to_file()
     
     def on_reload_pie(self, widget):
         jour = date_list[self.app_combo.get_active()]
+        self.img_pie(jour)
+        self.builder.get_object("pie_chart").set_from_file(f"visuel/img/{jour}_pie_chart.png")
+        self.save_to_file()
+
+    def save_to_file(self):
+        jour = date_list[self.app_combo.get_active()]
+        
+        # data map colors
+        choosed_color1 = []
+        for i in range(10):
+            choosed_color1.append(self.combo[i].get_active())
+        
+        #number map colors
+        choosed_color2 = []
+        for i in range(10,20):   
+            choosed_color2.append(self.combo[i].get_active())
+            
+        #pie chart colors
+        colors = []
         for i in range(10):
             self.color_button = self.builder.get_object(f"colorbt{i}")
             rgba = self.color_button.get_rgba()
-            print(rgba)
-            a = rgba[1]
-            print(a)
+            colors.append(gdkrgba_to_hex(rgba))
         
-        pie_chart(jour, colors)
-            
+        colorsave(jour, choosed_color1, choosed_color2, colors)
+    
     def load_files(self, jour):
         a, b, c, d, e, f, g, n, u = load(jour)
         phrase = f"During the day of {jour}, there were a total of {a} trains running. These trains passed through {b} stations. Naturally, there were some late trains. There were nearly {c} trains late, which corresponds to nearly {d} % of all the trains running. {e} stations have been crossed by these late trains. This corresponds to {f}% of all stations visited during the same day. These late trains also had an impact on the lines open during the day of {jour}, because on the {g} lines open, nearly {u} % had at least one train late. There were only {round(g-(g*u)/100)} lines without delay, namely {round(100-u,2)} %. At this stage you are probably saying to yourself : But the accumulated time must be enormous ! No it's only {n}."
@@ -228,11 +248,26 @@ class MainWindow():
             self.builder.get_object(f"gare_{i}").set_label(_(str(lst_data_number[i])))
             self.builder.get_object(f"number{i}").set_label(_(str(lst_value_number[i])))
             self.builder.get_object(f"pb_{i}").set_label(_(lst_problems[i]))
-            
+        
+        with open(f"visuel/colors/colors_{jour}.json") as json_color:
+            data = json.load(json_color)
+            colors = []
+            choosen_color1 = []
+            choosen_color2 = []
+            for j in range(10):
+                colors.append(data[f"pie_{j}"])
+                choosen_color1.append(data[f"map1_{j}"])
+                choosen_color2.append(data[f"map2_{j}"])
+        
+        for i in range(10):
+            self.builder.get_object(f"colorbt{i}").set_rgba(hex_to_gdkrgba(colors[i]))
+            self.combo[i].set_active(choosen_color1[i])
+            self.combo[i+10].set_active(choosen_color2[i])
         
         if not os.path.exists(f"visuel/img/{jour}1.png") or not os.path.exists(f"visuel/img/{jour}2.png"):
             self.img_time(jour)
             self.img_number(jour)
+        
         
         if not os.path.exists(f"visuel/img/{jour}_pie_chart.png"):
             pie_chart(jour, colors)
