@@ -69,6 +69,7 @@
                     <property name="can_focus">False</property>
                     <property name="border_width">24</property>
                     <property name="orientation">vertical</property>
+                    <property name="spacing">20</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -130,42 +131,130 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkFrame">
+                      <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_bottom">20</property>
-                        <property name="label_xalign">0</property>
-                        <property name="shadow_type">in</property>
                         <child>
-                          <object class="GtkBox">
+                          <object class="GtkFrame">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="shadow_type">in</property>
                             <child>
-                              <object class="GtkLabel" id="info_label">
+                              <object class="GtkBox">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="margin_left">15</property>
-                                <property name="margin_top">10</property>
-                                <property name="margin_bottom">10</property>
-                                <property name="label" translatable="yes">During the day of {jour}, there were a total of {a} trains running. These trains passed through {b} stations. Naturally, there were some late trains. There were nearly {c} trains late, which corresponds to nearly {d} % of all the trains running. {e} stations have been crossed by these late trains. This corresponds to {f}% of all stations visited during the same day. These late trains also had an impact on the lines open during the day of {jour}, because on the {g} lines open, nearly {u} % had at least one train late. There were only {round(g-(g*u)/100)} lines without delay, namely {round(100-u,2)} %. At this stage you are probably saying to yourself : But the accumulated time must be enormous ! No it's only {n}.</property>
-                                <property name="wrap">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="info_label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="margin_left">15</property>
+                                    <property name="label" translatable="yes">During the day of {jour}, there were a total of {a} trains running. These trains passed through {b} stations. Naturally, there were some late trains. There were nearly {c} trains late, which corresponds to nearly {d} % of all the trains running. {e} stations have been crossed by these late trains. This corresponds to {f}% of all stations visited during the same day. These late trains also had an impact on the lines open during the day of {jour}, because on the {g} lines open, nearly {u} % had at least one train late. There were only {round(g-(g*u)/100)} lines without delay, namely {round(100-u,2)} %. At this stage you are probably saying to yourself : But the accumulated time must be enormous ! No it's only {n}.</property>
+                                    <property name="wrap">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
                               </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
+                            </child>
+                            <child type="label_item">
+                              <placeholder/>
                             </child>
                           </object>
-                        </child>
-                        <child type="label_item">
-                          <placeholder/>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">20</property>
+                        <child>
+                          <object class="GtkFrame">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="shadow_type">in</property>
+                            <child>
+                              <object class="GtkAlignment">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="top_padding">8</property>
+                                <property name="bottom_padding">8</property>
+                                <property name="left_padding">12</property>
+                                <property name="right_padding">12</property>
+                                <child>
+                                  <object class="GtkLabel" id="text_0">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">label</property>
+                                    <property name="wrap">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label_item">
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFrame">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="shadow_type">in</property>
+                            <child>
+                              <object class="GtkAlignment">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="top_padding">8</property>
+                                <property name="bottom_padding">8</property>
+                                <property name="left_padding">12</property>
+                                <property name="right_padding">12</property>
+                                <child>
+                                  <object class="GtkLabel" id="text_1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">label</property>
+                                    <property name="wrap">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label_item">
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                     <child>
@@ -189,7 +278,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">2</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                     <child>
@@ -213,8 +302,6 @@
                                     <property name="can_focus">False</property>
                                     <property name="margin_left">10</property>
                                     <property name="margin_right">10</property>
-                                    <property name="margin_top">5</property>
-                                    <property name="margin_bottom">5</property>
                                     <property name="top_padding">8</property>
                                     <property name="bottom_padding">8</property>
                                     <property name="left_padding">12</property>
@@ -1417,14 +1504,93 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">3</property>
+                        <property name="position">4</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_top">20</property>
+                        <property name="spacing">20</property>
+                        <child>
+                          <object class="GtkFrame">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="shadow_type">in</property>
+                            <child>
+                              <object class="GtkAlignment">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="top_padding">8</property>
+                                <property name="bottom_padding">8</property>
+                                <property name="left_padding">12</property>
+                                <property name="right_padding">12</property>
+                                <child>
+                                  <object class="GtkLabel" id="text_3">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">label</property>
+                                    <property name="wrap">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label_item">
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFrame">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label_xalign">0</property>
+                            <property name="shadow_type">in</property>
+                            <child>
+                              <object class="GtkAlignment">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="top_padding">8</property>
+                                <property name="bottom_padding">8</property>
+                                <property name="left_padding">12</property>
+                                <property name="right_padding">12</property>
+                                <child>
+                                  <object class="GtkLabel" id="text_4">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">label</property>
+                                    <property name="wrap">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="label_item">
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">5</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="spacing">53</property>
                         <child>
                           <object class="GtkBox">
@@ -1895,7 +2061,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">4</property>
+                        <property name="position">6</property>
                       </packing>
                     </child>
                   </object>
