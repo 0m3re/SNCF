@@ -173,18 +173,18 @@ class MainWindow():
     def img_time(self, jour):
         lst_lat_time, lst_long_time = city_lat_lon_1(jour)
         one = 1
-        choosed_color1 = []
+        choosen_color1 = []
         for i in range(10):     
-            choosed_color1.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
-        photo(jour, lst_lat_time, lst_long_time, choosed_color1, one)
+            choosen_color1.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
+        photo(jour, lst_lat_time, lst_long_time, choosen_color1, one)
     
     def img_number(self, jour): 
         lst_lat_number, lst_long_number = city_lat_lon_2(jour)
         two = 2
-        choosed_color2 = []
+        choosen_color2 = []
         for i in range(10,20):   
-            choosed_color2.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
-        photo(jour, lst_lat_number, lst_long_number, choosed_color2, two)
+            choosen_color2.append(dict_color.get(str(self.combo[i].get_active()), str(self.combo[i].get_active())))
+        photo(jour, lst_lat_number, lst_long_number, choosen_color2, two)
     
     def img_pie(self, jour):
         colors = []
@@ -217,14 +217,14 @@ class MainWindow():
         jour = date_list[self.app_combo.get_active()]
         
         # data map colors
-        choosed_color1 = []
+        choosen_color1 = []
         for i in range(10):
-            choosed_color1.append(self.combo[i].get_active())
+            choosen_color1.append(self.combo[i].get_active())
         
         #number map colors
-        choosed_color2 = []
+        choosen_color2 = []
         for i in range(10,20):   
-            choosed_color2.append(self.combo[i].get_active())
+            choosen_color2.append(self.combo[i].get_active())
             
         #pie chart colors
         colors = []
@@ -233,7 +233,7 @@ class MainWindow():
             rgba = self.color_button.get_rgba()
             colors.append(gdkrgba_to_hex(rgba))
         
-        colorsave(jour, choosed_color1, choosed_color2, colors)
+        colorsave(jour, choosen_color1, choosen_color2, colors)
     
     def load_files(self, jour):
         a, b, c, d, e, f, g, n, u = load(jour)
@@ -249,15 +249,21 @@ class MainWindow():
             self.builder.get_object(f"number{i}").set_label(_(str(lst_value_number[i])))
             self.builder.get_object(f"pb_{i}").set_label(_(lst_problems[i]))
         
-        with open(f"visuel/colors/colors_{jour}.json") as json_color:
-            data = json.load(json_color)
-            colors = []
-            choosen_color1 = []
-            choosen_color2 = []
-            for j in range(10):
-                colors.append(data[f"pie_{j}"])
-                choosen_color1.append(data[f"map1_{j}"])
-                choosen_color2.append(data[f"map2_{j}"])
+        if not os.path.exists(f"visuel/colors/colors_{jour}.json"):
+            colors = ['#ff0000ff', '#ff7f00ff', '#00ffffff', '#096a09ff', '#24445cff', '#ffff00ff', '#2e006cff', '#f056ffff', '#1b019bff', '#6c0277ff']
+            choosen_color1 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+            choosen_color2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+            
+        else:
+            with open(f"visuel/colors/colors_{jour}.json") as json_color:
+                data = json.load(json_color)
+                colors = []
+                choosen_color1 = []
+                choosen_color2 = []
+                for j in range(10):
+                    colors.append(data[f"pie_{j}"])
+                    choosen_color1.append(data[f"map1_{j}"])
+                    choosen_color2.append(data[f"map2_{j}"])
         
         for i in range(10):
             self.builder.get_object(f"colorbt{i}").set_rgba(hex_to_gdkrgba(colors[i]))
