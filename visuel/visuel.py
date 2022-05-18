@@ -22,7 +22,7 @@ from gi.repository import Gtk, Gio, GdkPixbuf, Gdk
 _ = gettext.gettext
 dir = 'calculus'
 #date = datetime.date.today() - datetime.timedelta(1)
-date = '2022-05-02'
+date = '2022-05-11'
 lst_color = ['🍎️', '🐙️', '🌵', '🍊', '🥠️', '🐾️', '🍇️', '🧠️', '🔘️', '🐸️', '🐘️', '⚫️', '🦍️', '🌚️']
 dict_color = { '0' : 'red', '1' : 'lightred', '2' : 'green', '3' : 'orange', '4' : 'beige', '5': 'darkblue', '6': 'darkpurple', '7': 'pink', '8': 'lightblue', '9': 'lightgreen', '10': 'lightgray', '11': 'black', '12': 'gray', '13': 'cadetblue'}
 
@@ -278,6 +278,10 @@ class MainWindow():
             self.builder.get_object(f"colorbt{i}").set_rgba(hex_to_gdkrgba(colors[i]))
             self.combo[i].set_active(choosen_color1[i])
             self.combo[i+10].set_active(choosen_color2[i])
+            
+        if not os.path.exists(f"visuel/img"):
+            os.mkdir(f"visuel/img")
+
         
         if not os.path.exists(f"visuel/img/{jour}1.png") or not os.path.exists(f"visuel/img/{jour}2.png"):
             self.img_time(jour)
